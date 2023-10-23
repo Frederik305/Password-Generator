@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem2 = new ListViewItem("");
+            ListViewItem listViewItem1 = new ListViewItem("");
             panel1 = new Panel();
             buttonEffacerPassword = new Button();
             buttonSauvgarderPassword = new Button();
@@ -98,6 +98,7 @@
             buttonSauvgarderPassword.TabIndex = 2;
             buttonSauvgarderPassword.Text = "Sauvgarder";
             buttonSauvgarderPassword.UseVisualStyleBackColor = true;
+            buttonSauvgarderPassword.Click += buttonSauvgarderPassword_Click;
             // 
             // buttonModifierPassword
             // 
@@ -248,6 +249,7 @@
             textBoxMotDePasse.Name = "textBoxMotDePasse";
             textBoxMotDePasse.Size = new Size(268, 23);
             textBoxMotDePasse.TabIndex = 14;
+            textBoxMotDePasse.TextChanged += textBoxMotDePasse_TextChanged;
             // 
             // textBoxCodeUtilisateur
             // 
@@ -341,7 +343,7 @@
             // listView1
             // 
             listView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem2 });
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem1 });
             listView1.Location = new Point(-1, 0);
             listView1.Name = "listView1";
             listView1.Size = new Size(269, 487);

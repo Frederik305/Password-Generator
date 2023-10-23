@@ -22,6 +22,7 @@ namespace Generateur_de_mots_de_passe
 
         private void buttonNouveauPassword_Click(object sender, EventArgs e)
         {
+            Password passwordGenerator = new Password();
             textBoxTitre.Enabled = true;
             textBoxCodeUtilisateur.Enabled = true;
             buttonGenerer.Enabled = true;
@@ -41,7 +42,6 @@ namespace Generateur_de_mots_de_passe
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             PasswordLenghtDisplay.Text = trackBar1.Value.ToString();
-
         }
 
         private void textBoxCaractSpeciaux_KeyPress(object sender, KeyPressEventArgs e)
@@ -58,26 +58,32 @@ namespace Generateur_de_mots_de_passe
 
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
-            string generatedPassword = Password.GenerateRandomPassword(
-                passwordGenerator.SpecialCharacters = textBoxCaractSpeciaux.Text,
-                passwordGenerator.Length = trackBar1.Value,
-                passwordGenerator.HasUppercaseCharacters,
-                passwordGenerator.HasDigitCharacters
-            );
-
-            textBoxMotDePasse.Text = generatedPassword;
+            var pw = new Password();
+            pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
+            pw.Length = trackBar1.Value;
+            pw.HasUppercaseCharacters = checkBoxMaj.Checked;
+            pw.HasDigitCharacters = checkBoxChiffres.Checked;
+            textBoxMotDePasse.Text = pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters);
         }
 
         private void checkBoxMaj_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxMaj.Checked == true) { passwordGenerator.HasUppercaseCharacters = true; }
-            else { passwordGenerator.HasUppercaseCharacters = false; }
+
         }
 
         private void checkBoxChiffres_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxChiffres.Checked == true) { passwordGenerator.HasDigitCharacters = true; }
-            else { passwordGenerator.HasDigitCharacters = false; }
+
+        }
+
+        private void buttonSauvgarderPassword_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxMotDePasse_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
