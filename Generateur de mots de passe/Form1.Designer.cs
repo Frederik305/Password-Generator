@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem1 = new ListViewItem("");
+            ListViewItem listViewItem2 = new ListViewItem("");
             panel1 = new Panel();
             buttonEffacerPassword = new Button();
             buttonSauvgarderPassword = new Button();
@@ -55,9 +55,6 @@
             panel3 = new Panel();
             splitContainer1 = new SplitContainer();
             listView1 = new ListView();
-            ColumnTitre = new ColumnHeader();
-            columnHeaderCodeUser = new ColumnHeader();
-            columnHeaderPassword = new ColumnHeader();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -178,6 +175,7 @@
             checkBoxMaj.TabIndex = 7;
             checkBoxMaj.Text = "Majuscules";
             checkBoxMaj.UseVisualStyleBackColor = true;
+            checkBoxMaj.CheckedChanged += checkBoxMaj_CheckedChanged;
             // 
             // checkBoxChiffres
             // 
@@ -188,6 +186,7 @@
             checkBoxChiffres.TabIndex = 8;
             checkBoxChiffres.Text = "Chiffres";
             checkBoxChiffres.UseVisualStyleBackColor = true;
+            checkBoxChiffres.CheckedChanged += checkBoxChiffres_CheckedChanged;
             // 
             // checkBoxCaractSpeciaux
             // 
@@ -232,6 +231,7 @@
             buttonGenerer.TabIndex = 12;
             buttonGenerer.Text = "Generer";
             buttonGenerer.UseVisualStyleBackColor = true;
+            buttonGenerer.Click += buttonGenerer_Click;
             // 
             // textBoxTitre
             // 
@@ -341,30 +341,13 @@
             // listView1
             // 
             listView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listView1.Columns.AddRange(new ColumnHeader[] { ColumnTitre, columnHeaderCodeUser, columnHeaderPassword });
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1 });
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem2 });
             listView1.Location = new Point(-1, 0);
             listView1.Name = "listView1";
             listView1.Size = new Size(269, 487);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
-            // 
-            // ColumnTitre
-            // 
-            ColumnTitre.Text = "Titre";
-            // 
-            // columnHeaderCodeUser
-            // 
-            columnHeaderCodeUser.Text = "Code Utilisateur";
-            columnHeaderCodeUser.TextAlign = HorizontalAlignment.Center;
-            columnHeaderCodeUser.Width = 100;
-            // 
-            // columnHeaderPassword
-            // 
-            columnHeaderPassword.Text = "Mot de passe";
-            columnHeaderPassword.TextAlign = HorizontalAlignment.Center;
-            columnHeaderPassword.Width = 100;
             // 
             // Form1
             // 
@@ -414,8 +397,5 @@
         private TrackBar trackBar1;
         private SplitContainer splitContainer1;
         private ListView listView1;
-        private ColumnHeader ColumnTitre;
-        private ColumnHeader columnHeaderCodeUser;
-        private ColumnHeader columnHeaderPassword;
     }
 }
