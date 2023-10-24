@@ -11,7 +11,7 @@ namespace Generateur_de_mots_de_passe
         public static readonly string LowerCaseCharacters = "abcdefghijklmnopqrstuvwxyz";
         public static readonly string DigitCharacters = "0123456789";
 
-        public static string GenerateRandomPassword(string specialCharacters, int length, bool hasUppercaseCharacters, bool hasDigitCharacters)
+        public string GenerateRandomPassword(string specialCharacters, int length, bool hasUppercaseCharacters, bool hasDigitCharacters)
         {
             Random random = new Random();
             string validCharacters = LowerCaseCharacters;
@@ -26,8 +26,7 @@ namespace Generateur_de_mots_de_passe
                 validCharacters += DigitCharacters;
             }
 
-
-            if (HasSpecialCharacters(specialCharacters))
+            if (HasSpecialCharacters())
             {
                 validCharacters += specialCharacters;
             }
@@ -41,6 +40,7 @@ namespace Generateur_de_mots_de_passe
 
             return new string(passwordChars);
         }
+
 
         public string Description { get; set; }
 
@@ -61,7 +61,7 @@ namespace Generateur_de_mots_de_passe
 
         public static bool HasSpecialCharacters(string specialCharacters)
         {
-            return !string.IsNullOrEmpty(specialCharacters);
+            return string.IsNullOrEmpty(specialCharacters);
         }
 
         public string ToString()
