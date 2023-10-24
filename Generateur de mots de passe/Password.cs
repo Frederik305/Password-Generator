@@ -26,19 +26,20 @@ namespace Generateur_de_mots_de_passe
                 validCharacters += DigitCharacters;
             }
 
-            if (!string.IsNullOrEmpty(specialCharacters))
+
+            if (HasSpecialCharacters(specialCharacters))
             {
                 validCharacters += specialCharacters;
             }
 
-            char[] password = new char[length];
+            char[] passwordChars = new char[length];
 
             for (int i = 0; i < length; i++)
             {
-                password[i] = validCharacters[random.Next(validCharacters.Length)];
+                passwordChars[i] = validCharacters[random.Next(validCharacters.Length)];
             }
 
-            return new string(password);
+            return new string(passwordChars);
         }
 
         public string Description { get; set; }
@@ -58,12 +59,12 @@ namespace Generateur_de_mots_de_passe
             return LowerCaseCharacters.ToUpper();
         }
 
-        public bool HasSpecialCharacters()
+        public static bool HasSpecialCharacters(string specialCharacters)
         {
             return !string.IsNullOrEmpty(specialCharacters);
         }
 
-        public override string ToString()
+        public string ToString()
         {
             return description;
         }
