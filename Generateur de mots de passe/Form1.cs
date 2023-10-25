@@ -6,23 +6,26 @@ namespace Generateur_de_mots_de_passe
     {
         private ArrayList passwordsList = new ArrayList();
 
-        private Password passwordGenerator = new Password();
+        private Password pw;
 
         public Form1()
         {
             InitializeComponent();
             textBoxCaractSpeciaux.Enabled = false;
-
+            buttonSauvgarderPassword.Enabled = true;
             textBoxMotDePasse.ReadOnly = true;
             textBoxMotDePasse.Enabled = true;
             checkBoxAfficher.Enabled = true;
             buttonCopier.Enabled = true;
             textBoxMotDePasse.UseSystemPasswordChar = true;
+
+            listView1.Columns.Add("Description", 250);
         }
 
         private void buttonNouveauPassword_Click(object sender, EventArgs e)
         {
-            Password passwordGenerator = new Password();
+            pw = new Password();
+            this.pw = new Password();
             textBoxTitre.Enabled = true;
             textBoxCodeUtilisateur.Enabled = true;
             buttonGenerer.Enabled = true;
@@ -52,13 +55,11 @@ namespace Generateur_de_mots_de_passe
         private void checkBoxCaractSpeciaux_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxCaractSpeciaux.Checked) { textBoxCaractSpeciaux.Enabled = true; }
-            else { textBoxCaractSpeciaux.Enabled = false; }
-
+            else { textBoxCaractSpeciaux.Enabled = false; textBoxCaractSpeciaux.Text = string.Empty; }
         }
 
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
-            var pw = new Password();
             pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
             pw.Length = trackBar1.Value;
             pw.HasUppercaseCharacters = checkBoxMaj.Checked;
@@ -79,9 +80,40 @@ namespace Generateur_de_mots_de_passe
         private void buttonSauvgarderPassword_Click(object sender, EventArgs e)
         {
 
+            if (textBoxCodeUtilisateur.Text != string.Empty && textBoxTitre.Text != string.Empty && textBoxMotDePasse.Text != string.Empty)
+                {
+                Password newPassword = new Password();
+                newPassword.Description = textBoxTitre.Text;
+                newPassword.UserAccount = textBoxCodeUtilisateur.Text;
+                passwordsList.Add(newPassword);
+
+                listView1.Items.Clear();
+
+                foreach (Password password in passwordsList)
+                {
+                    ListViewItem item = new ListViewItem(password.ToString());
+                    listView1.Items.Add(item);
+                }
+                if (listView1.Items.Count > 0)
+                {
+                    listView1.Items[listView1.Items.Count - 1].Selected = true;
+                    listView1.Select();
+                }
+            }
         }
 
+
         private void textBoxMotDePasse_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxTitre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxCodeUtilisateur_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -26,7 +26,7 @@ namespace Generateur_de_mots_de_passe
                 validCharacters += DigitCharacters;
             }
 
-            if (HasSpecialCharacters())
+            if (HasSpecialCharacters(specialCharacters))
             {
                 validCharacters += specialCharacters;
             }
@@ -59,14 +59,14 @@ namespace Generateur_de_mots_de_passe
             return LowerCaseCharacters.ToUpper();
         }
 
-        public static bool HasSpecialCharacters(string specialCharacters)
+        public bool HasSpecialCharacters(string specialCharacters)
         {
-            return string.IsNullOrEmpty(specialCharacters);
+            return !string.IsNullOrEmpty(specialCharacters);
         }
 
         public string ToString()
         {
-            return description;
+            return Description;
         }
     }
 }

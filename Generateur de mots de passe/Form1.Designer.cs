@@ -241,6 +241,7 @@
             textBoxTitre.Name = "textBoxTitre";
             textBoxTitre.Size = new Size(268, 23);
             textBoxTitre.TabIndex = 13;
+            textBoxTitre.TextChanged += textBoxTitre_TextChanged;
             // 
             // textBoxMotDePasse
             // 
@@ -258,6 +259,7 @@
             textBoxCodeUtilisateur.Name = "textBoxCodeUtilisateur";
             textBoxCodeUtilisateur.Size = new Size(268, 23);
             textBoxCodeUtilisateur.TabIndex = 15;
+            textBoxCodeUtilisateur.TextChanged += textBoxCodeUtilisateur_TextChanged;
             // 
             // textBoxCaractSpeciaux
             // 
