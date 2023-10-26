@@ -18,13 +18,13 @@ namespace Generateur_de_mots_de_passe
             checkBoxAfficher.Enabled = true;
             buttonCopier.Enabled = true;
             textBoxMotDePasse.UseSystemPasswordChar = true;
+            buttonModifierPassword.Enabled = true;
 
             listView1.Columns.Add("Description", 250);
         }
 
         private void buttonNouveauPassword_Click(object sender, EventArgs e)
         {
-            pw = new Password();
             this.pw = new Password();
             textBoxTitre.Enabled = true;
             textBoxCodeUtilisateur.Enabled = true;
@@ -81,19 +81,14 @@ namespace Generateur_de_mots_de_passe
         {
 
             if (textBoxCodeUtilisateur.Text != string.Empty && textBoxTitre.Text != string.Empty && textBoxMotDePasse.Text != string.Empty)
-                {
-                Password newPassword = new Password();
-                newPassword.Description = textBoxTitre.Text;
-                newPassword.UserAccount = textBoxCodeUtilisateur.Text;
-                passwordsList.Add(newPassword);
+            {
+                pw.Description = textBoxTitre.Text;
+                pw.UserAccount = textBoxCodeUtilisateur.Text;
+                passwordsList.Add(pw);
 
-                listView1.Items.Clear();
-
-                foreach (Password password in passwordsList)
-                {
-                    ListViewItem item = new ListViewItem(password.ToString());
-                    listView1.Items.Add(item);
-                }
+                ListViewItem item = new ListViewItem(pw.ToString());
+                listView1.Items.Add(item);
+                
                 if (listView1.Items.Count > 0)
                 {
                     listView1.Items[listView1.Items.Count - 1].Selected = true;
@@ -116,6 +111,15 @@ namespace Generateur_de_mots_de_passe
         private void textBoxCodeUtilisateur_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonModifierPassword_Click(object sender, EventArgs e)
+        {
+            var text = listView1.SelectedItems[0];
+
+
+            String text1 = listView1.SelectedItems[0].Text;
+            label6.Text = text1;
         }
     }
 }

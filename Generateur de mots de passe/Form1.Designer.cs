@@ -55,6 +55,7 @@
             panel3 = new Panel();
             splitContainer1 = new SplitContainer();
             listView1 = new ListView();
+            label6 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -110,6 +111,7 @@
             buttonModifierPassword.TabIndex = 1;
             buttonModifierPassword.Text = "Modifier";
             buttonModifierPassword.UseVisualStyleBackColor = true;
+            buttonModifierPassword.Click += buttonModifierPassword_Click;
             // 
             // buttonNouveauPassword
             // 
@@ -335,6 +337,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(label6);
             splitContainer1.Panel2.Controls.Add(panel2);
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
@@ -353,6 +356,15 @@
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(459, 303);
+            label6.Name = "label6";
+            label6.Size = new Size(38, 15);
+            label6.TabIndex = 19;
+            label6.Text = "label6";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -369,6 +381,7 @@
             panel3.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
@@ -401,5 +414,6 @@
         private TrackBar trackBar1;
         private SplitContainer splitContainer1;
         private ListView listView1;
+        private Label label6;
     }
 }
