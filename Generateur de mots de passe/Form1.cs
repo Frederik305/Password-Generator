@@ -20,6 +20,8 @@ namespace Generateur_de_mots_de_passe
             textBoxMotDePasse.UseSystemPasswordChar = true;
             buttonModifierPassword.Enabled = true;
 
+            listView1.MultiSelect = false;
+
             listView1.Columns.Add("Description", 250);
         }
 
@@ -87,6 +89,7 @@ namespace Generateur_de_mots_de_passe
                 passwordsList.Add(pw);
 
                 ListViewItem item = new ListViewItem(pw.ToString());
+                item.Tag = item.Tag = pw;
                 listView1.Items.Add(item);
                 
                 if (listView1.Items.Count > 0)
@@ -115,11 +118,16 @@ namespace Generateur_de_mots_de_passe
 
         private void buttonModifierPassword_Click(object sender, EventArgs e)
         {
-            var text = listView1.SelectedItems[0];
+            if (listView1.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedListItem = listView1.SelectedItems[0];
 
-
-            String text1 = listView1.SelectedItems[0].Text;
-            label6.Text = text1;
+                
+                if (selectedListItem.Tag is Password selectedPassword)
+                {
+                    
+                }
+            }
         }
     }
 }
