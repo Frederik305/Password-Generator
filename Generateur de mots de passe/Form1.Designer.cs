@@ -54,7 +54,6 @@
             panel3 = new Panel();
             splitContainer1 = new SplitContainer();
             listBox1 = new ListBox();
-            label6 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -87,6 +86,7 @@
             buttonEffacerPassword.TabIndex = 3;
             buttonEffacerPassword.Text = "Effacer";
             buttonEffacerPassword.UseVisualStyleBackColor = true;
+            buttonEffacerPassword.Click += buttonEffacerPassword_Click;
             // 
             // buttonSauvgarderPassword
             // 
@@ -177,7 +177,6 @@
             checkBoxMaj.TabIndex = 7;
             checkBoxMaj.Text = "Majuscules";
             checkBoxMaj.UseVisualStyleBackColor = true;
-            checkBoxMaj.CheckedChanged += checkBoxMaj_CheckedChanged;
             // 
             // checkBoxChiffres
             // 
@@ -188,7 +187,6 @@
             checkBoxChiffres.TabIndex = 8;
             checkBoxChiffres.Text = "Chiffres";
             checkBoxChiffres.UseVisualStyleBackColor = true;
-            checkBoxChiffres.CheckedChanged += checkBoxChiffres_CheckedChanged;
             // 
             // checkBoxCaractSpeciaux
             // 
@@ -242,7 +240,6 @@
             textBoxTitre.Name = "textBoxTitre";
             textBoxTitre.Size = new Size(268, 23);
             textBoxTitre.TabIndex = 13;
-            textBoxTitre.TextChanged += textBoxTitre_TextChanged;
             // 
             // textBoxMotDePasse
             // 
@@ -251,7 +248,6 @@
             textBoxMotDePasse.Name = "textBoxMotDePasse";
             textBoxMotDePasse.Size = new Size(268, 23);
             textBoxMotDePasse.TabIndex = 14;
-            textBoxMotDePasse.TextChanged += textBoxMotDePasse_TextChanged;
             // 
             // textBoxCodeUtilisateur
             // 
@@ -260,7 +256,6 @@
             textBoxCodeUtilisateur.Name = "textBoxCodeUtilisateur";
             textBoxCodeUtilisateur.Size = new Size(268, 23);
             textBoxCodeUtilisateur.TabIndex = 15;
-            textBoxCodeUtilisateur.TextChanged += textBoxCodeUtilisateur_TextChanged;
             // 
             // textBoxCaractSpeciaux
             // 
@@ -336,7 +331,6 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(label6);
             splitContainer1.Panel2.Controls.Add(panel2);
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
@@ -354,15 +348,6 @@
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(459, 303);
-            label6.Name = "label6";
-            label6.Size = new Size(38, 15);
-            label6.TabIndex = 19;
-            label6.Text = "label6";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -379,7 +364,6 @@
             panel3.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
-            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
@@ -411,7 +395,6 @@
         private Label PasswordLenghtDisplay;
         private TrackBar trackBar1;
         private SplitContainer splitContainer1;
-        private Label label6;
         private ListBox listBox1;
     }
 }
