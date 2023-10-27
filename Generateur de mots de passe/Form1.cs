@@ -8,29 +8,42 @@ namespace Generateur_de_mots_de_passe
 
         private Password pw;
 
+        private bool isNewPasswordClicked = false;
+
         public Form1()
         {
             InitializeComponent();
+            textBoxMotDePasse.UseSystemPasswordChar = true;
+            //buttonModifierPassword.Enabled = true;
+
             textBoxCaractSpeciaux.Enabled = false;
             buttonSauvgarderPassword.Enabled = true;
+
             textBoxMotDePasse.ReadOnly = true;
             textBoxMotDePasse.Enabled = true;
-            checkBoxAfficher.Enabled = true;
-            buttonCopier.Enabled = true;
-            textBoxMotDePasse.UseSystemPasswordChar = true;
-            buttonModifierPassword.Enabled = true;
 
-            listView1.MultiSelect = false;
+            buttonSauvgarderPassword.Enabled = false;
 
-            listView1.Columns.Add("Description", 250);
+            //checkBoxAfficher.Enabled = true;
+
+            //buttonCopier.Enabled = true;
         }
 
         private void buttonNouveauPassword_Click(object sender, EventArgs e)
         {
-            this.pw = new Password();
+            isNewPasswordClicked = true;
+
+            pw = new Password();
             textBoxTitre.Enabled = true;
             textBoxCodeUtilisateur.Enabled = true;
             buttonGenerer.Enabled = true;
+            textBoxTitre.Text = "";
+            textBoxCodeUtilisateur.Text = "";
+            textBoxMotDePasse.Text = "";
+
+            buttonModifierPassword.Enabled = false;
+            buttonCopier.Enabled = false;
+            checkBoxAfficher.Enabled = false;
         }
 
         private void checkBoxAfficher_CheckedChanged(object sender, EventArgs e)
@@ -66,7 +79,12 @@ namespace Generateur_de_mots_de_passe
             pw.Length = trackBar1.Value;
             pw.HasUppercaseCharacters = checkBoxMaj.Checked;
             pw.HasDigitCharacters = checkBoxChiffres.Checked;
-            textBoxMotDePasse.Text = pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters);
+            pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters);
+            textBoxMotDePasse.Text = pw.PasswordValue;
+
+            buttonCopier.Enabled = true;
+            checkBoxAfficher.Enabled = true;
+            buttonSauvgarderPassword.Enabled = true;
         }
 
         private void checkBoxMaj_CheckedChanged(object sender, EventArgs e)
@@ -81,23 +99,54 @@ namespace Generateur_de_mots_de_passe
 
         private void buttonSauvgarderPassword_Click(object sender, EventArgs e)
         {
-
-            if (textBoxCodeUtilisateur.Text != string.Empty && textBoxTitre.Text != string.Empty && textBoxMotDePasse.Text != string.Empty)
+            if (string.IsNullOrWhiteSpace(textBoxCodeUtilisateur.Text) || string.IsNullOrWhiteSpace(textBoxTitre.Text) || string.IsNullOrWhiteSpace(textBoxMotDePasse.Text))
             {
-                pw.Description = textBoxTitre.Text;
-                pw.UserAccount = textBoxCodeUtilisateur.Text;
-                passwordsList.Add(pw);
-
-                ListViewItem item = new ListViewItem(pw.ToString());
-                item.Tag = item.Tag = pw;
-                listView1.Items.Add(item);
-                
-                if (listView1.Items.Count > 0)
-                {
-                    listView1.Items[listView1.Items.Count - 1].Selected = true;
-                    listView1.Select();
-                }
+                MessageBox.Show("svp renplire tout les cases.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+
+            string newDescription = textBoxTitre.Text;
+
+            bool descriptionExists = passwordsList.Cast<Password>().Any(password => password.Description == newDescription);
+
+            if (descriptionExists)
+            {
+                MessageBox.Show("Un password a deja la meme description. svp entrer un code unique", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            pw.Description = newDescription;
+            pw.UserAccount = textBoxCodeUtilisateur.Text;
+
+            textBoxTitre.Enabled = false;
+            textBoxCodeUtilisateur.Enabled = false;
+
+            int selectedIndex = listBox1.SelectedIndex;
+
+            if (selectedIndex >= 0 && isNewPasswordClicked == false)
+            {
+                Password selectedPassword = (Password)passwordsList[selectedIndex];
+                selectedPassword.Description = pw.Description;
+                selectedPassword.UserAccount = pw.UserAccount;
+
+                selectedPassword.GenerateRandomPassword(selectedPassword.SpecialCharacters, selectedPassword.Length, selectedPassword.HasUppercaseCharacters, selectedPassword.HasDigitCharacters);
+
+                listBox1.Items[selectedIndex] = selectedPassword;
+            }
+            else
+            {
+                passwordsList.Add(pw);
+                listBox1.Items.Clear();
+
+                foreach (Password password in passwordsList)
+                {
+                    listBox1.Items.Add(password);
+                }
+
+                int newIndex = listBox1.Items.IndexOf(pw);
+                listBox1.SelectedIndex = newIndex;
+            }
+
         }
 
 
@@ -118,15 +167,43 @@ namespace Generateur_de_mots_de_passe
 
         private void buttonModifierPassword_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0)
-            {
-                ListViewItem selectedListItem = listView1.SelectedItems[0];
+            isNewPasswordClicked = false;
 
-                
-                if (selectedListItem.Tag is Password selectedPassword)
-                {
-                    
-                }
+            textBoxTitre.Enabled = true;
+            textBoxCodeUtilisateur.Enabled = true;
+
+            int selectedIndex = listBox1.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                Password selectedPassword = (Password)passwordsList[selectedIndex];
+
+                textBoxTitre.Text = selectedPassword.Description;
+                textBoxCodeUtilisateur.Text = selectedPassword.UserAccount;
+                textBoxMotDePasse.Text = selectedPassword.PasswordValue;
+
+
+                buttonGenerer.Enabled = true;
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = listBox1.SelectedIndex;
+
+            if (selectedIndex >= 0)
+            {
+                Password selectedPassword = (Password)passwordsList[selectedIndex];
+
+                textBoxTitre.Text = selectedPassword.Description;
+                textBoxCodeUtilisateur.Text = selectedPassword.UserAccount;
+                textBoxMotDePasse.Text = selectedPassword.PasswordValue;
+
+                textBoxTitre.Enabled = false;
+                textBoxCodeUtilisateur.Enabled = false;
+                buttonGenerer.Enabled = false;
+
+                buttonModifierPassword.Enabled = true;
             }
         }
     }

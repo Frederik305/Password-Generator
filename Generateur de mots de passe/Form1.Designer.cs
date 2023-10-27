@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem1 = new ListViewItem("");
             panel1 = new Panel();
             buttonEffacerPassword = new Button();
             buttonSauvgarderPassword = new Button();
@@ -54,7 +53,7 @@
             trackBar1 = new TrackBar();
             panel3 = new Panel();
             splitContainer1 = new SplitContainer();
-            listView1 = new ListView();
+            listBox1 = new ListBox();
             label6 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -333,7 +332,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(listView1);
+            splitContainer1.Panel1.Controls.Add(listBox1);
             // 
             // splitContainer1.Panel2
             // 
@@ -345,16 +344,15 @@
             splitContainer1.SplitterDistance = 267;
             splitContainer1.TabIndex = 19;
             // 
-            // listView1
+            // listBox1
             // 
-            listView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem1 });
-            listView1.Location = new Point(-1, 0);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(269, 487);
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.Details;
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(-1, -1);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(274, 484);
+            listBox1.TabIndex = 0;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // label6
             // 
@@ -413,7 +411,7 @@
         private Label PasswordLenghtDisplay;
         private TrackBar trackBar1;
         private SplitContainer splitContainer1;
-        private ListView listView1;
         private Label label6;
+        private ListBox listBox1;
     }
 }
