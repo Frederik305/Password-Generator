@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            label6 = new Label();
             buttonEffacerPassword = new Button();
             buttonSauvgarderPassword = new Button();
             buttonModifierPassword = new Button();
@@ -51,9 +52,11 @@
             panel2 = new Panel();
             PasswordLenghtDisplay = new Label();
             trackBar1 = new TrackBar();
-            panel3 = new Panel();
-            splitContainer1 = new SplitContainer();
             listBox1 = new ListBox();
+            panel3 = new Panel();
+            labelURL = new Label();
+            textBoxURL = new TextBox();
+            splitContainer1 = new SplitContainer();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -67,20 +70,30 @@
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panel1.Controls.Add(label6);
             panel1.Controls.Add(buttonEffacerPassword);
             panel1.Controls.Add(buttonSauvgarderPassword);
             panel1.Controls.Add(buttonModifierPassword);
             panel1.Controls.Add(buttonNouveauPassword);
-            panel1.Location = new Point(-61, 0);
+            panel1.Location = new Point(77, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(630, 49);
+            panel1.Size = new Size(554, 49);
             panel1.TabIndex = 1;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(0, 16);
+            label6.Name = "label6";
+            label6.Size = new Size(38, 15);
+            label6.TabIndex = 4;
+            label6.Text = "label6";
             // 
             // buttonEffacerPassword
             // 
             buttonEffacerPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonEffacerPassword.Enabled = false;
-            buttonEffacerPassword.Location = new Point(545, 12);
+            buttonEffacerPassword.Location = new Point(469, 12);
             buttonEffacerPassword.Name = "buttonEffacerPassword";
             buttonEffacerPassword.Size = new Size(75, 23);
             buttonEffacerPassword.TabIndex = 3;
@@ -92,11 +105,11 @@
             // 
             buttonSauvgarderPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonSauvgarderPassword.Enabled = false;
-            buttonSauvgarderPassword.Location = new Point(464, 12);
+            buttonSauvgarderPassword.Location = new Point(380, 12);
             buttonSauvgarderPassword.Name = "buttonSauvgarderPassword";
-            buttonSauvgarderPassword.Size = new Size(75, 23);
+            buttonSauvgarderPassword.Size = new Size(83, 23);
             buttonSauvgarderPassword.TabIndex = 2;
-            buttonSauvgarderPassword.Text = "Sauvgarder";
+            buttonSauvgarderPassword.Text = "Sauvegarder";
             buttonSauvgarderPassword.UseVisualStyleBackColor = true;
             buttonSauvgarderPassword.Click += buttonSauvgarderPassword_Click;
             // 
@@ -104,7 +117,7 @@
             // 
             buttonModifierPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonModifierPassword.Enabled = false;
-            buttonModifierPassword.Location = new Point(383, 12);
+            buttonModifierPassword.Location = new Point(299, 12);
             buttonModifierPassword.Name = "buttonModifierPassword";
             buttonModifierPassword.Size = new Size(75, 23);
             buttonModifierPassword.TabIndex = 1;
@@ -115,7 +128,7 @@
             // buttonNouveauPassword
             // 
             buttonNouveauPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonNouveauPassword.Location = new Point(302, 12);
+            buttonNouveauPassword.Location = new Point(218, 12);
             buttonNouveauPassword.Name = "buttonNouveauPassword";
             buttonNouveauPassword.Size = new Size(75, 23);
             buttonNouveauPassword.TabIndex = 0;
@@ -144,7 +157,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(20, 112);
+            label3.Location = new Point(20, 162);
             label3.Name = "label3";
             label3.Size = new Size(77, 15);
             label3.TabIndex = 4;
@@ -203,7 +216,7 @@
             // 
             checkBoxAfficher.AutoSize = true;
             checkBoxAfficher.Enabled = false;
-            checkBoxAfficher.Location = new Point(400, 108);
+            checkBoxAfficher.Location = new Point(400, 158);
             checkBoxAfficher.Name = "checkBoxAfficher";
             checkBoxAfficher.Size = new Size(68, 19);
             checkBoxAfficher.TabIndex = 10;
@@ -214,7 +227,7 @@
             // buttonCopier
             // 
             buttonCopier.Enabled = false;
-            buttonCopier.Location = new Point(400, 135);
+            buttonCopier.Location = new Point(400, 185);
             buttonCopier.Name = "buttonCopier";
             buttonCopier.Size = new Size(75, 23);
             buttonCopier.TabIndex = 11;
@@ -225,7 +238,7 @@
             // buttonGenerer
             // 
             buttonGenerer.Enabled = false;
-            buttonGenerer.Location = new Point(114, 135);
+            buttonGenerer.Location = new Point(114, 185);
             buttonGenerer.Name = "buttonGenerer";
             buttonGenerer.Size = new Size(75, 23);
             buttonGenerer.TabIndex = 12;
@@ -244,7 +257,7 @@
             // textBoxMotDePasse
             // 
             textBoxMotDePasse.Enabled = false;
-            textBoxMotDePasse.Location = new Point(114, 106);
+            textBoxMotDePasse.Location = new Point(114, 156);
             textBoxMotDePasse.Name = "textBoxMotDePasse";
             textBoxMotDePasse.Size = new Size(268, 23);
             textBoxMotDePasse.TabIndex = 14;
@@ -276,7 +289,7 @@
             panel2.Controls.Add(checkBoxMaj);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label4);
-            panel2.Location = new Point(69, 247);
+            panel2.Location = new Point(129, 277);
             panel2.Name = "panel2";
             panel2.Size = new Size(359, 177);
             panel2.TabIndex = 17;
@@ -301,9 +314,22 @@
             trackBar1.Value = 12;
             trackBar1.Scroll += trackBar1_Scroll;
             // 
+            // listBox1
+            // 
+            listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(-1, -1);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(302, 484);
+            listBox1.TabIndex = 0;
+            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
+            // 
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panel3.Controls.Add(labelURL);
+            panel3.Controls.Add(textBoxURL);
             panel3.Controls.Add(textBoxTitre);
             panel3.Controls.Add(textBoxCodeUtilisateur);
             panel3.Controls.Add(buttonCopier);
@@ -313,10 +339,27 @@
             panel3.Controls.Add(label3);
             panel3.Controls.Add(buttonGenerer);
             panel3.Controls.Add(checkBoxAfficher);
-            panel3.Location = new Point(15, 61);
+            panel3.Location = new Point(77, 61);
             panel3.Name = "panel3";
-            panel3.Size = new Size(492, 180);
+            panel3.Size = new Size(492, 210);
             panel3.TabIndex = 18;
+            // 
+            // labelURL
+            // 
+            labelURL.AutoSize = true;
+            labelURL.Location = new Point(9, 119);
+            labelURL.Name = "labelURL";
+            labelURL.Size = new Size(28, 15);
+            labelURL.TabIndex = 17;
+            labelURL.Text = "URL";
+            // 
+            // textBoxURL
+            // 
+            textBoxURL.Enabled = false;
+            textBoxURL.Location = new Point(114, 111);
+            textBoxURL.Name = "textBoxURL";
+            textBoxURL.Size = new Size(268, 23);
+            textBoxURL.TabIndex = 16;
             // 
             // splitContainer1
             // 
@@ -334,29 +377,22 @@
             splitContainer1.Panel2.Controls.Add(panel2);
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
-            splitContainer1.Size = new Size(845, 488);
-            splitContainer1.SplitterDistance = 267;
+            splitContainer1.Size = new Size(935, 488);
+            splitContainer1.SplitterDistance = 295;
             splitContainer1.TabIndex = 19;
-            // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(-1, -1);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(274, 484);
-            listBox1.TabIndex = 0;
-            listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(844, 485);
+            ClientSize = new Size(934, 485);
             Controls.Add(splitContainer1);
+            MinimumSize = new Size(950, 524);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
@@ -396,5 +432,8 @@
         private TrackBar trackBar1;
         private SplitContainer splitContainer1;
         private ListBox listBox1;
+        private Label label6;
+        private TextBox textBoxURL;
+        private Label labelURL;
     }
 }
