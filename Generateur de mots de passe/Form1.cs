@@ -1,4 +1,5 @@
 using PwdGen;
+using System.Drawing.Text;
 
 namespace Generateur_de_mots_de_passe
 {
@@ -12,6 +13,10 @@ namespace Generateur_de_mots_de_passe
         private Password pw;// Instance de la classe Password
 
         private bool isNewPasswordClicked = false;// Drapeau pour suivre la création d'un nouveau mot de passe
+
+        private string oldDescription;
+
+        private bool IsGen = false;
 
         // Constructeur de la classe Form1
         public Form1()
@@ -112,11 +117,35 @@ namespace Generateur_de_mots_de_passe
         private void buttonSauvgarderPassword_Click(object sender, EventArgs e)
         {
             // Vérification de la validité des données saisies
-            if (string.IsNullOrWhiteSpace(textBoxCodeUtilisateur.Text) || string.IsNullOrWhiteSpace(textBoxTitre.Text) || string.IsNullOrWhiteSpace(textBoxMotDePasse.Text))
+            if (string.IsNullOrWhiteSpace(textBoxTitre.Text))
             {
-                MessageBox.Show("svp renplire tout les cases.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                errorProvider1.Clear();
+                errorProvider1.SetError(textBoxTitre, "svp remplire la description");
+                textBoxTitre.Focus();
                 return;
             }
+            else if (string.IsNullOrWhiteSpace(textBoxCodeUtilisateur.Text))
+            {
+                errorProvider1.Clear();
+                errorProvider1.SetError(textBoxCodeUtilisateur, "svp remplire le code utilisateur");
+                textBoxCodeUtilisateur.Focus();
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(textBoxMotDePasse.Text))
+            {
+                errorProvider1.Clear();
+                errorProvider1.SetError(textBoxMotDePasse, "svp generer le mot de passe");
+                buttonGenerer.Focus();
+                return;
+            }
+            else if (textBoxCaractSpeciaux.Text == string.Empty && checkBoxCaractSpeciaux.Checked == true)
+            {
+                errorProvider1.Clear();
+                errorProvider1.SetError(textBoxCaractSpeciaux, "Aucun charactere speciaux on ete selectionner");
+                textBoxCaractSpeciaux.Focus();
+                return;
+            }
+
 
             // Récupération de la description du nouveau mot de passe
             string newDescription = textBoxTitre.Text;
@@ -124,78 +153,60 @@ namespace Generateur_de_mots_de_passe
             // Récupération de l'indice sélectionné dans la liste
             int selectedIndex = listBox1.SelectedIndex;
 
-            if (textBoxCaractSpeciaux.Text == string.Empty && checkBoxCaractSpeciaux.Checked == true) { MessageBox.Show("Aucun charactere speciaux on ete selectionner", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            else
+            if (DialogResult.Yes == MessageBox.Show("Est-tu sur de vouloir sauvegarder le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
-                DialogResult result = MessageBox.Show("Est-tu sur de vouloir sauvegarder le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                if (isNewPasswordClicked)
                 {
-                    if (isNewPasswordClicked)
+                    // Mise à jour des propriétés du mot de passe
+                    pw.Description = textBoxTitre.Text;
+                    pw.UserAccount = textBoxCodeUtilisateur.Text;
+                    pw.URL = textBoxURL.Text;
+                    pw.Note = textBoxNote.Text;
+                    pw.PasswordValue = textBoxMotDePasse.Text;
+
+                    // Ajouter un nouveau mot de passe
+                    passwordsList.Add(pw);
+                    listBox1.Items.Clear();
+
+                    // Remplir la ListBox avec les mots de passe
+                    foreach (Password password in passwordsList)
                     {
-                        // Mise à jour des propriétés du mot de passe
-                        pw.Description = newDescription;
-                        pw.UserAccount = textBoxCodeUtilisateur.Text;
-                        pw.URL = textBoxURL.Text;
-                        pw.PasswordValue = textBoxMotDePasse.Text;
-
-                        if (verification(newDescription) == false)
-                        {
-                            // Ajouter un nouveau mot de passe
-                            passwordsList.Add(pw);
-                            listBox1.Items.Clear();
-
-                            // Remplir la ListBox avec les mots de passe
-                            foreach (Password password in passwordsList)
-                            {
-                                listBox1.Items.Add(password);
-                            }
-
-                            // Sélectionne le nouveau mot de passe ajouté dans la liste
-                            int newIndex = listBox1.Items.IndexOf(pw);
-                            listBox1.SelectedIndex = newIndex;
-
-                            try
-                            {
-                                pwdFile.Save(passwordsList);
-                            }
-
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                        }
+                        listBox1.Items.Add(password);
                     }
-                    else if (selectedIndex >= 0)
-                    {
-                        if (verification(newDescription) == false)
-                        {
-                            pw.Description = newDescription;
-                            pw.UserAccount = textBoxCodeUtilisateur.Text;
-                            pw.URL = textBoxURL.Text;
-                            pw.PasswordValue = textBoxMotDePasse.Text;
-                            passwordsList[selectedIndex] = pw;
-                            listBox1.Items[selectedIndex] = pw;
-                            try
-                            {
-                                pwdFile.Save(passwordsList);
-                            }
 
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                        }
-                    }
-                    readOnlyAllTextBox(true);
-                    trackBar1.Enabled = false;
-                    checkBoxMaj.Enabled = false;
-                    checkBoxChiffres.Enabled = false;
-                    checkBoxCaractSpeciaux.Enabled = false;
+                    // Sélectionne le nouveau mot de passe ajouté dans la liste
+                    int newIndex = listBox1.Items.IndexOf(pw);
+                    listBox1.SelectedIndex = newIndex;
 
-                    label6.Text = $"Il y a: {passwordsList.Count} items dans la list des passwords";
+                    try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    errorProvider1.Clear();
+                    IsGen = true;
+                }
+                else if (selectedIndex >= 0 && oldDescription == textBoxTitre.Text || verification(newDescription) == false)
+                {
+                    pw.Description = textBoxTitre.Text;
+                    pw.UserAccount = textBoxCodeUtilisateur.Text;
+                    pw.URL = textBoxURL.Text;
+                    pw.Note = textBoxNote.Text;
+                    pw.PasswordValue = textBoxMotDePasse.Text;
+                    passwordsList[selectedIndex] = pw;
+                    listBox1.Items[selectedIndex] = pw;
+
+                    try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    errorProvider1.Clear();
+                    IsGen = true;
                 }
             }
+            readOnlyAllTextBox(true);
+            trackBar1.Enabled = false;
+            checkBoxMaj.Enabled = false;
+            checkBoxChiffres.Enabled = false;
+            checkBoxCaractSpeciaux.Enabled = false;
+
+            label6.Text = $"Il y a: {passwordsList.Count} items dans la list des passwords";
+            pw = new Password();
         }
+     
 
         // Méthode pour activer la modification d'un mot de passe
         private void buttonModifierPassword_Click(object sender, EventArgs e)
@@ -203,9 +214,11 @@ namespace Generateur_de_mots_de_passe
             isNewPasswordClicked = false;
             selectedIndex();
             {
+                oldDescription = textBoxTitre.Text;
                 buttonModifierPassword.Enabled = false;
                 enableAll();
                 readOnlyAllTextBox(false);
+                textBoxMotDePasse.ReadOnly = true;
             }
         }
 
@@ -221,6 +234,8 @@ namespace Generateur_de_mots_de_passe
                 buttonSauvgarderPassword.Enabled = false;
                 readOnlyAllTextBox(true);
             }
+            if(IsGen == true) { IsGen = false; }
+            else { errorProvider1.Clear(); }
         }
         private void selectedIndex()
         {
@@ -229,19 +244,20 @@ namespace Generateur_de_mots_de_passe
             if (selectedIndex >= 0)
             {
                 // Récupére le mot de passe sélectionné
-                Password selectedPassword = (Password)passwordsList[selectedIndex];
+                pw = passwordsList[selectedIndex];
 
                 // Pré-remplir les champs avec les données du mot de passe sélectionné
-                textBoxTitre.Text = selectedPassword.Description;
-                textBoxCodeUtilisateur.Text = selectedPassword.UserAccount;
-                textBoxURL.Text = selectedPassword.URL;
-                trackBar1.Value = selectedPassword.Length;
-                PasswordLenghtDisplay.Text = selectedPassword.Length.ToString();
-                textBoxMotDePasse.Text = selectedPassword.PasswordValue;
-                checkBoxMaj.Checked = selectedPassword.HasUppercaseCharacters;
-                checkBoxChiffres.Checked = selectedPassword.HasDigitCharacters;
-                checkBoxCaractSpeciaux.Checked = selectedPassword.HasSpecialCharacters;
-                textBoxCaractSpeciaux.Text = selectedPassword.SpecialCharacters;
+                textBoxTitre.Text = pw.Description;
+                textBoxCodeUtilisateur.Text = pw.UserAccount;
+                textBoxURL.Text = pw.URL;
+                textBoxNote.Text = pw.Note;
+                trackBar1.Value = pw.Length;
+                PasswordLenghtDisplay.Text = pw.Length.ToString();
+                textBoxMotDePasse.Text = pw.PasswordValue;
+                checkBoxMaj.Checked = pw.HasUppercaseCharacters;
+                checkBoxChiffres.Checked = pw.HasDigitCharacters;
+                checkBoxCaractSpeciaux.Checked = pw.HasSpecialCharacters;
+                textBoxCaractSpeciaux.Text = pw.SpecialCharacters;
             }
         }
 
@@ -249,16 +265,16 @@ namespace Generateur_de_mots_de_passe
         private void buttonEffacerPassword_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Est-tu sur de vouloir supprimer le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            int selectedIndex = listBox1.SelectedIndex;
+            if (result == DialogResult.Yes && selectedIndex >= 0)
             {
-                int selectedIndex = listBox1.SelectedIndex;
-                if (selectedIndex >= 0)
-                {
-                    passwordsList.RemoveAt(selectedIndex);
-                    listBox1.Items.RemoveAt(selectedIndex);
 
-                    baseValues();
-                }
+                passwordsList.RemoveAt(selectedIndex);
+                listBox1.Items.RemoveAt(selectedIndex);
+
+                try{ pwdFile.Save(passwordsList); } catch (Exception ex){ MessageBox.Show(ex.Message); }
+
+                baseValues();
             }
         }
         private bool verification(string newDescription)
@@ -267,11 +283,12 @@ namespace Generateur_de_mots_de_passe
 
             if (descriptionExists)
             {
-                MessageBox.Show("Un password a deja la meme description. svp entrer un code unique", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                errorProvider1.SetError(textBoxTitre, "Un password a deja la meme description. svp entrer un code unique");
                 return true;
             }
             return false;
         }
+
         private void baseValues()
         {
             disableAll();
@@ -297,6 +314,7 @@ namespace Generateur_de_mots_de_passe
             textBoxTitre.Enabled = false;
             textBoxCodeUtilisateur.Enabled = false;
             textBoxURL.Enabled = false;
+            textBoxNote.Enabled = false;
             textBoxMotDePasse.Enabled = false;
             textBoxCaractSpeciaux.Enabled = false;
             buttonSauvgarderPassword.Enabled = false;
@@ -315,6 +333,7 @@ namespace Generateur_de_mots_de_passe
             textBoxTitre.Enabled = true;
             textBoxCodeUtilisateur.Enabled = true;
             textBoxURL.Enabled = true;
+            textBoxNote.Enabled = true;
             textBoxMotDePasse.Enabled = true;
             textBoxCaractSpeciaux.Enabled = true;
             buttonGenerer.Enabled = true;
@@ -334,23 +353,16 @@ namespace Generateur_de_mots_de_passe
             textBoxTitre.Text = string.Empty;
             textBoxCodeUtilisateur.Text = string.Empty;
             textBoxURL.Text = string.Empty;
+            textBoxNote.Text = string.Empty;
             textBoxMotDePasse.Text = string.Empty;
             textBoxCaractSpeciaux.Text = string.Empty;
         }
         private void readOnlyAllTextBox(bool readOnly)
         {
-            if (readOnly == true)
-            {
-                textBoxTitre.ReadOnly = true;
-                textBoxCodeUtilisateur.ReadOnly = true;
-                textBoxURL.ReadOnly = true;
-            }
-            else
-            {
-                textBoxTitre.ReadOnly = false;
-                textBoxCodeUtilisateur.ReadOnly = false;
-                textBoxURL.ReadOnly = false;
-            }
+            textBoxTitre.ReadOnly = readOnly;
+            textBoxCodeUtilisateur.ReadOnly = readOnly;
+            textBoxURL.ReadOnly = readOnly;
+            textBoxNote.ReadOnly = readOnly;
         }
     }
 }

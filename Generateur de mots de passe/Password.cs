@@ -48,6 +48,9 @@
         // Propriété : Stocke le URL d'un site lier au mot de passe.
         public string URL { get; set; }
 
+        // Propriété : Stocke une Note de reference au site lier au mot de passe.
+        public string Note { get; set; }
+
         // Propriété : Définit ou récupère la longueur du mot de passe. La valeur par défaut est de 12 caractères.
         public int Length { get; set; } = 12;
 
