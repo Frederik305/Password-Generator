@@ -180,8 +180,8 @@ namespace Generateur_de_mots_de_passe
             if (string.IsNullOrWhiteSpace(textBoxTitre.Text))
             {
                 errorProvider1.Clear();
-                errorProvider1.SetError(textBoxTitre, "svp remplire la description");
-                labelMessage.Text = "la description est incomplet";
+                errorProvider1.SetError(textBoxTitre, "svp, remplissez la description.");
+                labelMessage.Text = "La description est incomplète.";
                 labelMessage.ForeColor = Color.Red;
                 textBoxTitre.Focus();
                 return;
@@ -189,7 +189,7 @@ namespace Generateur_de_mots_de_passe
             else if (string.IsNullOrWhiteSpace(textBoxCodeUtilisateur.Text))
             {
                 errorProvider1.Clear();
-                errorProvider1.SetError(textBoxCodeUtilisateur, "svp remplire le code utilisateur");
+                errorProvider1.SetError(textBoxCodeUtilisateur, "svp, remplissez le code utilisateur.");
                 labelMessage.Text = "le code utilisateur est incomplet";
                 labelMessage.ForeColor = Color.Red;
                 textBoxCodeUtilisateur.Focus();
@@ -198,8 +198,8 @@ namespace Generateur_de_mots_de_passe
             else if (string.IsNullOrWhiteSpace(textBoxMotDePasse.Text))
             {
                 errorProvider1.Clear();
-                errorProvider1.SetError(textBoxMotDePasse, "svp generer le mot de passe");
-                labelMessage.Text = "le mot de passe est incomplet";
+                errorProvider1.SetError(textBoxMotDePasse, "svp, génère le mot de passe.");
+                labelMessage.Text = "Le mot de passe est incomplet.";
                 labelMessage.ForeColor = Color.Red;
                 buttonGenerer.Focus();
                 return;
@@ -207,8 +207,8 @@ namespace Generateur_de_mots_de_passe
             else if (textBoxCaractSpeciaux.Text == string.Empty && checkBoxCaractSpeciaux.Checked == true)
             {
                 errorProvider1.Clear();
-                errorProvider1.SetError(textBoxCaractSpeciaux, "Aucun charactere speciaux on ete selectionner");
-                labelMessage.Text = "Aucun charactere speciaux on ete selectionner";
+                errorProvider1.SetError(textBoxCaractSpeciaux, "Aucun caractère spécial n'a été sélectionné.");
+                labelMessage.Text = "Aucun caractère spécial n'a été sélectionné.";
                 labelMessage.ForeColor = Color.Red;
                 textBoxCaractSpeciaux.Focus();
                 return;
@@ -221,7 +221,7 @@ namespace Generateur_de_mots_de_passe
             // Récupération de l'indice sélectionné dans la liste
             int selectedIndex = listBox1.SelectedIndex;
 
-            if (DialogResult.Yes == MessageBox.Show("Est-tu sur de vouloir sauvegarder le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+            if (DialogResult.Yes == MessageBox.Show("Êtes-vous sûr de vouloir sauvegarder le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
                 if (isNewPasswordClicked && verification(newDescription) == false)
                 {
@@ -250,7 +250,7 @@ namespace Generateur_de_mots_de_passe
                     errorProvider1.Clear();
 
                     IsGen = true;
-                    labelMessage.Text = "La creation du mot de passe a ete effectuee avec succes";
+                    labelMessage.Text = "La création du mot de passe a été réalisée avec succès.";
                     labelMessage.ForeColor = Color.Green;
                 }
                 else if (selectedIndex >= 0 && oldDescription == textBoxTitre.Text || verification(newDescription) == false)
@@ -266,7 +266,7 @@ namespace Generateur_de_mots_de_passe
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
                     IsGen = true;
-                    labelMessage.Text = "La modification du mot de passe a ete effectuee avec succes";
+                    labelMessage.Text = "La modification du mot de passe a été effectuée avec succès.";
                     labelMessage.ForeColor = Color.Green;
                 }
             }
@@ -308,11 +308,16 @@ namespace Generateur_de_mots_de_passe
         {
             selectedIndex();
             {
+                enableAll();
                 buttonGenerer.Enabled = false;
                 buttonModifierPassword.Enabled = true;
                 buttonEffacerPassword.Enabled = true;
                 textBoxCaractSpeciaux.Enabled = false;
                 buttonSauvgarderPassword.Enabled = false;
+                checkBoxCaractSpeciaux.Enabled = false;
+                checkBoxChiffres.Enabled = false;
+                checkBoxMaj.Enabled = false;
+                trackBar1.Enabled = false;
                 readOnlyAllTextBox(true);
             }
             if (IsGen == true) { IsGen = false; }
@@ -353,7 +358,7 @@ namespace Generateur_de_mots_de_passe
         /// <param name="e"></param>
         private void buttonEffacerPassword_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Est-tu sur de vouloir supprimer le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             int selectedIndex = listBox1.SelectedIndex;
             if (result == DialogResult.Yes && selectedIndex >= 0)
             {
@@ -365,7 +370,7 @@ namespace Generateur_de_mots_de_passe
 
                 baseValues();
 
-                labelMessage.Text = "Le mot de passe a ete effacer effectuee avec succes";
+                labelMessage.Text = "La suppression du mot de passe a été effectuée avec succès.";
                 labelMessage.ForeColor = Color.Green;
             }
         }
@@ -380,8 +385,8 @@ namespace Generateur_de_mots_de_passe
 
             if (descriptionExists)
             {
-                errorProvider1.SetError(textBoxTitre, "Un password a deja la meme description. svp entrer un code unique");
-                labelMessage.Text = "Un password a deja la meme description";
+                errorProvider1.SetError(textBoxTitre, "Un mot de passe possède déjà la même description. Veuillez entrer un code unique.");
+                labelMessage.Text = "Un mot de passe possède déjà la même description.";
                 labelMessage.ForeColor = Color.Red;
                 return true;
             }
@@ -410,6 +415,8 @@ namespace Generateur_de_mots_de_passe
             buttonEffacerPassword.Enabled = false;
             buttonModifierPassword.Enabled = false;
             buttonNouveauPassword.Enabled = true;
+            textBoxMotDePasse.ReadOnly = true;
+            buttonGenerer.Enabled = false;
         }
 
         /// <summary>

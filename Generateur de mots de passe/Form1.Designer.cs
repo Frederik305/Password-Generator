@@ -212,9 +212,9 @@
             checkBoxCaractSpeciaux.AutoSize = true;
             checkBoxCaractSpeciaux.Location = new Point(28, 145);
             checkBoxCaractSpeciaux.Name = "checkBoxCaractSpeciaux";
-            checkBoxCaractSpeciaux.Size = new Size(128, 19);
+            checkBoxCaractSpeciaux.Size = new Size(130, 19);
             checkBoxCaractSpeciaux.TabIndex = 9;
-            checkBoxCaractSpeciaux.Text = "caractères spéciaux";
+            checkBoxCaractSpeciaux.Text = "Caractères spéciaux";
             checkBoxCaractSpeciaux.UseVisualStyleBackColor = true;
             checkBoxCaractSpeciaux.CheckedChanged += checkBoxCaractSpeciaux_CheckedChanged;
             // 
