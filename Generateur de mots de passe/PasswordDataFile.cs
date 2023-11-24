@@ -9,10 +9,25 @@ namespace PwdGen
 
     internal class PasswordDataFile
     {
+        /// <summary>
+        /// chemin du ficher
+        /// </summary>
         private string filePath;
+        /// <summary>
+        /// nom du fichier
+        /// </summary>
         private string fileName;
+        /// <summary>
+        /// Répertoire du fichier
+        /// </summary>
         private string fileDirectory;
 
+        /// <summary>
+        /// Constructeur de la classe PasswordDataFile.
+        /// Initialise le fichier de données pour la sauvegarde des mots de passe.
+        /// </summary>
+        /// <param name="fileName">Nom du fichier</param>
+        /// <param name="fileDirectory">Répertoire du fichier (optionnel)</param>
         public PasswordDataFile(string fileName, string fileDirectory = "")
         {
             if (string.IsNullOrWhiteSpace(fileName)) throw new ArgumentNullException(nameof(fileName));
@@ -59,6 +74,10 @@ namespace PwdGen
             catch { throw; }
         }
 
+        /// <summary>
+        /// Charge la liste des mots de passe depuis le fichier.
+        /// </summary>
+        /// <returns>Liste des mots de passe chargée depuis le fichier</returns>
         public List<Password> Load()
         {
             List<Password> loadedPasswordsList = new List<Password>();

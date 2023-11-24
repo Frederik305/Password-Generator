@@ -60,6 +60,7 @@
             labelURL = new Label();
             textBoxURL = new TextBox();
             splitContainer1 = new SplitContainer();
+            labelMessage = new Label();
             errorProvider1 = new ErrorProvider(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -80,15 +81,15 @@
             panel1.Controls.Add(buttonSauvgarderPassword);
             panel1.Controls.Add(buttonModifierPassword);
             panel1.Controls.Add(buttonNouveauPassword);
-            panel1.Location = new Point(86, 0);
+            panel1.Location = new Point(53, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(554, 49);
+            panel1.Size = new Size(554, 80);
             panel1.TabIndex = 1;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(0, 16);
+            label6.Location = new Point(30, 56);
             label6.Name = "label6";
             label6.Size = new Size(38, 15);
             label6.TabIndex = 4;
@@ -98,7 +99,7 @@
             // 
             buttonEffacerPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonEffacerPassword.Enabled = false;
-            buttonEffacerPassword.Location = new Point(469, 12);
+            buttonEffacerPassword.Location = new Point(417, 21);
             buttonEffacerPassword.Name = "buttonEffacerPassword";
             buttonEffacerPassword.Size = new Size(75, 23);
             buttonEffacerPassword.TabIndex = 3;
@@ -110,7 +111,7 @@
             // 
             buttonSauvgarderPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonSauvgarderPassword.Enabled = false;
-            buttonSauvgarderPassword.Location = new Point(380, 12);
+            buttonSauvgarderPassword.Location = new Point(277, 21);
             buttonSauvgarderPassword.Name = "buttonSauvgarderPassword";
             buttonSauvgarderPassword.Size = new Size(83, 23);
             buttonSauvgarderPassword.TabIndex = 2;
@@ -122,7 +123,7 @@
             // 
             buttonModifierPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonModifierPassword.Enabled = false;
-            buttonModifierPassword.Location = new Point(299, 12);
+            buttonModifierPassword.Location = new Point(150, 21);
             buttonModifierPassword.Name = "buttonModifierPassword";
             buttonModifierPassword.Size = new Size(75, 23);
             buttonModifierPassword.TabIndex = 1;
@@ -133,7 +134,7 @@
             // buttonNouveauPassword
             // 
             buttonNouveauPassword.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonNouveauPassword.Location = new Point(218, 12);
+            buttonNouveauPassword.Location = new Point(30, 21);
             buttonNouveauPassword.Name = "buttonNouveauPassword";
             buttonNouveauPassword.Size = new Size(75, 23);
             buttonNouveauPassword.TabIndex = 0;
@@ -146,9 +147,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(67, 31);
             label1.Name = "label1";
-            label1.Size = new Size(30, 15);
+            label1.Size = new Size(38, 15);
             label1.TabIndex = 2;
-            label1.Text = "Titre";
+            label1.Text = "Titre *";
             // 
             // label2
             // 
@@ -164,9 +165,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(20, 203);
             label3.Name = "label3";
-            label3.Size = new Size(77, 15);
+            label3.Size = new Size(85, 15);
             label3.TabIndex = 4;
-            label3.Text = "Mot de passe";
+            label3.Text = "Mot de passe *";
             // 
             // label4
             // 
@@ -175,7 +176,7 @@
             label4.Name = "label4";
             label4.Size = new Size(126, 15);
             label4.TabIndex = 5;
-            label4.Text = "Options du generateur";
+            label4.Text = "Options du générateur";
             // 
             // label5
             // 
@@ -211,9 +212,9 @@
             checkBoxCaractSpeciaux.AutoSize = true;
             checkBoxCaractSpeciaux.Location = new Point(28, 145);
             checkBoxCaractSpeciaux.Name = "checkBoxCaractSpeciaux";
-            checkBoxCaractSpeciaux.Size = new Size(130, 19);
+            checkBoxCaractSpeciaux.Size = new Size(128, 19);
             checkBoxCaractSpeciaux.TabIndex = 9;
-            checkBoxCaractSpeciaux.Text = "Caracteres speciaux";
+            checkBoxCaractSpeciaux.Text = "caractères spéciaux";
             checkBoxCaractSpeciaux.UseVisualStyleBackColor = true;
             checkBoxCaractSpeciaux.CheckedChanged += checkBoxCaractSpeciaux_CheckedChanged;
             // 
@@ -294,7 +295,7 @@
             panel2.Controls.Add(checkBoxMaj);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label4);
-            panel2.Location = new Point(151, 374);
+            panel2.Location = new Point(131, 372);
             panel2.Name = "panel2";
             panel2.Size = new Size(379, 177);
             panel2.TabIndex = 17;
@@ -346,7 +347,7 @@
             panel3.Controls.Add(label3);
             panel3.Controls.Add(buttonGenerer);
             panel3.Controls.Add(checkBoxAfficher);
-            panel3.Location = new Point(86, 61);
+            panel3.Location = new Point(86, 86);
             panel3.Name = "panel3";
             panel3.Size = new Size(492, 280);
             panel3.TabIndex = 18;
@@ -402,12 +403,24 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(labelMessage);
             splitContainer1.Panel2.Controls.Add(panel2);
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
             splitContainer1.Size = new Size(947, 638);
             splitContainer1.SplitterDistance = 298;
             splitContainer1.TabIndex = 19;
+            // 
+            // labelMessage
+            // 
+            labelMessage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            labelMessage.AutoSize = true;
+            labelMessage.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
+            labelMessage.ForeColor = SystemColors.ControlText;
+            labelMessage.Location = new Point(64, 589);
+            labelMessage.Name = "labelMessage";
+            labelMessage.Size = new Size(0, 25);
+            labelMessage.TabIndex = 19;
             // 
             // errorProvider1
             // 
@@ -433,6 +446,7 @@
             panel3.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
@@ -472,5 +486,6 @@
         private Label labelNote;
         private TextBox textBoxNote;
         private ErrorProvider errorProvider1;
+        private Label labelMessage;
     }
 }

@@ -1,29 +1,59 @@
 using PwdGen;
-using System.Drawing.Text;
 
 namespace Generateur_de_mots_de_passe
 {
+    /// <summary>
+    /// Classe principale de l'application qui gère la génération et la sauvegarde de mots de passe.
+    /// </summary>
     public partial class Form1 : Form
     {
         // Attributs de la classe Form1
-        private PasswordDataFile pwdFile = new PasswordDataFile("pwd");// Ficher de sauvegarde des mots de passe
 
-        private List<Password> passwordsList = new List<Password>();// Liste pour stocker les mots de passe
+        /// <summary>
+        /// Fichier de sauvegarde des mots de passe.
+        /// </summary>
+        private PasswordDataFile pwdFile = new PasswordDataFile("pwd");
 
-        private Password pw;// Instance de la classe Password
+        /// <summary>
+        /// Liste pour stocker les mots de passe.
+        /// </summary>
+        private List<Password> passwordsList = new List<Password>();
 
-        private bool isNewPasswordClicked = false;// Drapeau pour suivre la création d'un nouveau mot de passe
+        /// <summary>
+        /// Instance de la classe Password.
+        /// </summary>
+        private Password pw;
 
+        /// <summary>
+        /// Indique si le bouton Nouveau Password a été cliqué.
+        /// </summary>
+        private bool isNewPasswordClicked = false;
+
+        /// <summary>
+        /// Description précédente pour de la description du mot de passe.
+        /// </summary>
         private string oldDescription;
 
+        /// <summary>
+        /// Indique si un mot de passe a été généré.
+        /// </summary>
         private bool IsGen = false;
 
-        // Constructeur de la classe Form1
+        /// <summary>
+        /// Constructeur de la classe Form1.
+        /// Initialise les composants graphiques de la fenêtre.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Méthode appelée lors du chargement de la fenêtre.
+        /// Charge la liste de mots de passe depuis le fichier et initialise l'interface.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -37,26 +67,28 @@ namespace Generateur_de_mots_de_passe
                     listBox1.Items.Add(password);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
+            catch (Exception) { }
+
             baseValues();
         }
 
-        // Méthode pour créer une nouvelle instance Password
+        /// <summary>
+        /// Méthode appelée lors du click du boutton nouveau.
+        /// cree une nouvelle instance de Password et link les donnees de Password avec les inputs de l'app graphique
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonNouveauPassword_Click(object sender, EventArgs e)
         {
             isNewPasswordClicked = true;
 
             pw = new Password();
 
-            trackBar1.Value = pw.Length;
-            PasswordLenghtDisplay.Text = pw.Length.ToString();
-            checkBoxMaj.Checked = pw.HasUppercaseCharacters;
-            checkBoxChiffres.Checked = pw.HasDigitCharacters;
-            checkBoxCaractSpeciaux.Checked = pw.HasSpecialCharacters;
-            textBoxCaractSpeciaux.Text = pw.SpecialCharacters;
+            pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
+            pw.Length = trackBar1.Value;
+            pw.HasUppercaseCharacters = checkBoxMaj.Checked;
+            pw.HasDigitCharacters = checkBoxChiffres.Checked;
+            pw.HasSpecialCharacters = checkBoxCaractSpeciaux.Checked;
 
             enableAll();
             clearAll();
@@ -65,39 +97,63 @@ namespace Generateur_de_mots_de_passe
             textBoxCaractSpeciaux.ReadOnly = true;
         }
 
-        // Méthode pour activer ou désactiver checkBoxAfficher
+        /// <summary>
+        /// Méthode pour afficher le mot de passe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBoxAfficher_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxAfficher.Checked == true) { textBoxMotDePasse.UseSystemPasswordChar = false; }
             else { textBoxMotDePasse.UseSystemPasswordChar = true; }
         }
 
-        // Méthode pour copier le mot de passe dans le presse-papiers
+        /// <summary>
+        /// Méthode pour copier le mot de passe dans le presse-papiers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCopier_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(textBoxMotDePasse.Text);
         }
 
-        // Méthode pour afficher la longueur mot de passe
+        /// <summary>
+        /// Méthode pour afficher la longueur mot de passe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             PasswordLenghtDisplay.Text = trackBar1.Value.ToString();
         }
 
-        // Méthode pour limiter les caractères spéciaux saisis dans le champ textBoxCaractSpeciaux
+        /// <summary>
+        /// Méthode pour limiter les caractères spéciaux saisis dans le champ textBoxCaractSpeciaux
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBoxCaractSpeciaux_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = char.IsLetterOrDigit(e.KeyChar) || char.IsWhiteSpace(e.KeyChar);
         }
 
-        // Méthode pour activer ou désactiver la saisie de caractères spéciaux
+        /// <summary>
+        /// Méthode pour activer ou désactiver la saisie de caractères spéciaux
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBoxCaractSpeciaux_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxCaractSpeciaux.Checked) { textBoxCaractSpeciaux.ReadOnly = false; }
             else { textBoxCaractSpeciaux.ReadOnly = true; textBoxCaractSpeciaux.Text = string.Empty; }
         }
 
-        // Méthode pour générer un mot de passe aléatoire
+        /// <summary>
+        /// Méthode pour générer un mot de passe aléatoire.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
             pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
@@ -113,7 +169,11 @@ namespace Generateur_de_mots_de_passe
             buttonSauvgarderPassword.Enabled = true;
         }
 
-        // Méthode pour gérer la sauvegarde d'un mot de passe
+        /// <summary>
+        /// Méthode pour gérer la sauvegarde d'un mot de passe.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSauvgarderPassword_Click(object sender, EventArgs e)
         {
             // Vérification de la validité des données saisies
@@ -121,6 +181,8 @@ namespace Generateur_de_mots_de_passe
             {
                 errorProvider1.Clear();
                 errorProvider1.SetError(textBoxTitre, "svp remplire la description");
+                labelMessage.Text = "la description est incomplet";
+                labelMessage.ForeColor = Color.Red;
                 textBoxTitre.Focus();
                 return;
             }
@@ -128,6 +190,8 @@ namespace Generateur_de_mots_de_passe
             {
                 errorProvider1.Clear();
                 errorProvider1.SetError(textBoxCodeUtilisateur, "svp remplire le code utilisateur");
+                labelMessage.Text = "le code utilisateur est incomplet";
+                labelMessage.ForeColor = Color.Red;
                 textBoxCodeUtilisateur.Focus();
                 return;
             }
@@ -135,6 +199,8 @@ namespace Generateur_de_mots_de_passe
             {
                 errorProvider1.Clear();
                 errorProvider1.SetError(textBoxMotDePasse, "svp generer le mot de passe");
+                labelMessage.Text = "le mot de passe est incomplet";
+                labelMessage.ForeColor = Color.Red;
                 buttonGenerer.Focus();
                 return;
             }
@@ -142,6 +208,8 @@ namespace Generateur_de_mots_de_passe
             {
                 errorProvider1.Clear();
                 errorProvider1.SetError(textBoxCaractSpeciaux, "Aucun charactere speciaux on ete selectionner");
+                labelMessage.Text = "Aucun charactere speciaux on ete selectionner";
+                labelMessage.ForeColor = Color.Red;
                 textBoxCaractSpeciaux.Focus();
                 return;
             }
@@ -155,7 +223,7 @@ namespace Generateur_de_mots_de_passe
 
             if (DialogResult.Yes == MessageBox.Show("Est-tu sur de vouloir sauvegarder le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
-                if (isNewPasswordClicked)
+                if (isNewPasswordClicked && verification(newDescription) == false)
                 {
                     // Mise à jour des propriétés du mot de passe
                     pw.Description = textBoxTitre.Text;
@@ -180,7 +248,10 @@ namespace Generateur_de_mots_de_passe
 
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
+
                     IsGen = true;
+                    labelMessage.Text = "La creation du mot de passe a ete effectuee avec succes";
+                    labelMessage.ForeColor = Color.Green;
                 }
                 else if (selectedIndex >= 0 && oldDescription == textBoxTitre.Text || verification(newDescription) == false)
                 {
@@ -195,6 +266,8 @@ namespace Generateur_de_mots_de_passe
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
                     IsGen = true;
+                    labelMessage.Text = "La modification du mot de passe a ete effectuee avec succes";
+                    labelMessage.ForeColor = Color.Green;
                 }
             }
             readOnlyAllTextBox(true);
@@ -203,12 +276,16 @@ namespace Generateur_de_mots_de_passe
             checkBoxChiffres.Enabled = false;
             checkBoxCaractSpeciaux.Enabled = false;
 
-            label6.Text = $"Il y a: {passwordsList.Count} items dans la list des passwords";
+            label6.Text = $"Il y a: {passwordsList.Count} éléments dans la liste des mots de passe.";
             pw = new Password();
         }
-     
 
-        // Méthode pour activer la modification d'un mot de passe
+
+        /// <summary>
+        /// Méthode pour activer la modification d'un mot de passe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonModifierPassword_Click(object sender, EventArgs e)
         {
             isNewPasswordClicked = false;
@@ -222,7 +299,11 @@ namespace Generateur_de_mots_de_passe
             }
         }
 
-        // Méthode pour gérer la sélection d'un élément dans la ListBox
+        /// <summary>
+        /// Méthode pour gérer la sélection d'un élément dans la ListBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndex();
@@ -234,9 +315,13 @@ namespace Generateur_de_mots_de_passe
                 buttonSauvgarderPassword.Enabled = false;
                 readOnlyAllTextBox(true);
             }
-            if(IsGen == true) { IsGen = false; }
-            else { errorProvider1.Clear(); }
+            if (IsGen == true) { IsGen = false; }
+            else if (IsGen == false) { errorProvider1.Clear(); labelMessage.Text = string.Empty; }
         }
+
+        /// <summary>
+        /// Méthode pour afficher et modifer l'instance password
+        /// </summary>
         private void selectedIndex()
         {
             int selectedIndex = listBox1.SelectedIndex;
@@ -261,7 +346,11 @@ namespace Generateur_de_mots_de_passe
             }
         }
 
-        // Méthode pour supprimer un mot de passe sélectionné
+        /// <summary>
+        /// Méthode pour supprimer un mot de passe sélectionné
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonEffacerPassword_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Est-tu sur de vouloir supprimer le mot de passe?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -272,11 +361,19 @@ namespace Generateur_de_mots_de_passe
                 passwordsList.RemoveAt(selectedIndex);
                 listBox1.Items.RemoveAt(selectedIndex);
 
-                try{ pwdFile.Save(passwordsList); } catch (Exception ex){ MessageBox.Show(ex.Message); }
+                try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
 
                 baseValues();
+
+                labelMessage.Text = "Le mot de passe a ete effacer effectuee avec succes";
+                labelMessage.ForeColor = Color.Green;
             }
         }
+        /// <summary>
+        /// Methode de verification
+        /// </summary>
+        /// <param name="newDescription"></param>
+        /// <returns>true si la description existe deja</returns>
         private bool verification(string newDescription)
         {
             bool descriptionExists = passwordsList.Cast<Password>().Any(password => password.Description == newDescription && password != pw);
@@ -284,16 +381,21 @@ namespace Generateur_de_mots_de_passe
             if (descriptionExists)
             {
                 errorProvider1.SetError(textBoxTitre, "Un password a deja la meme description. svp entrer un code unique");
+                labelMessage.Text = "Un password a deja la meme description";
+                labelMessage.ForeColor = Color.Red;
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Méthode pour désactiver tous les champs de l'interface.
+        /// </summary>
         private void baseValues()
         {
             disableAll();
             textBoxMotDePasse.UseSystemPasswordChar = true;
-            label6.Text = $"Il y a: {passwordsList.Count} items dans la list des passwords";
+            label6.Text = $"Il y a: {passwordsList.Count} éléments dans la liste des mots de passe.";
             textBoxTitre.Text = "";
             textBoxCodeUtilisateur.Text = "";
             textBoxURL.Text = "";
@@ -309,6 +411,10 @@ namespace Generateur_de_mots_de_passe
             buttonModifierPassword.Enabled = false;
             buttonNouveauPassword.Enabled = true;
         }
+
+        /// <summary>
+        /// Méthode pour desactiver les valeurs.
+        /// </summary>
         private void disableAll()
         {
             textBoxTitre.Enabled = false;
@@ -328,6 +434,10 @@ namespace Generateur_de_mots_de_passe
             buttonCopier.Enabled = false;
             checkBoxAfficher.Enabled = false;
         }
+
+        /// <summary>
+        /// Méthode pour activer les valeurs.
+        /// </summary>
         private void enableAll()
         {
             textBoxTitre.Enabled = true;
@@ -348,6 +458,10 @@ namespace Generateur_de_mots_de_passe
             buttonCopier.Enabled = true;
             checkBoxAfficher.Enabled = true;
         }
+
+        /// <summary>
+        /// Méthode pour clear les champs des textbox
+        /// </summary>
         private void clearAll()
         {
             textBoxTitre.Text = string.Empty;
@@ -356,7 +470,13 @@ namespace Generateur_de_mots_de_passe
             textBoxNote.Text = string.Empty;
             textBoxMotDePasse.Text = string.Empty;
             textBoxCaractSpeciaux.Text = string.Empty;
+            textBoxNote.Text = string.Empty;
         }
+
+        /// <summary>
+        /// Méthode pour mettre les champs des textbox en readonly
+        /// </summary>
+        /// <param name="readOnly">Bool</param>
         private void readOnlyAllTextBox(bool readOnly)
         {
             textBoxTitre.ReadOnly = readOnly;
