@@ -1,4 +1,5 @@
 using PwdGen;
+using System.ComponentModel;
 
 namespace Generateur_de_mots_de_passe
 {
@@ -18,6 +19,8 @@ namespace Generateur_de_mots_de_passe
         /// Liste pour stocker les mots de passe.
         /// </summary>
         private List<Password> passwordsList = new List<Password>();
+
+        private BindingList<Password> demosBindingList;
 
         /// <summary>
         /// Instance de la classe Password.
@@ -58,16 +61,23 @@ namespace Generateur_de_mots_de_passe
         {
             try
             {
-                var newList = pwdFile.Load();
+                passwordsList = pwdFile.Load();
+                demosBindingList = new BindingList<Password>(passwordsList);
+                listBox1.DataSource = demosBindingList;
+                listBox1.DisplayMember = "Description";
 
                 // Remplir la ListBox avec les mots de passe
-                foreach (Password password in newList)
-                {
-                    passwordsList.Add(password);
-                    listBox1.Items.Add(password);
-                }
+                //foreach (Password password in passwordsList)
+                //{
+                //passwordsList.Add(password);
+                /*demosBindingList = new BindingList<Password>(passwordsList);
+                listBox1.DataSource = demosBindingList;
+                listBox1.DisplayMember = "Description";*/
+                //}
             }
             catch (Exception) { }
+
+
 
             baseValues();
         }
@@ -84,11 +94,13 @@ namespace Generateur_de_mots_de_passe
 
             pw = new Password();
 
-            pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
+            bindingSource1.DataSource = pw;
+
+            /*pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
             pw.Length = trackBar1.Value;
             pw.HasUppercaseCharacters = checkBoxMaj.Checked;
             pw.HasDigitCharacters = checkBoxChiffres.Checked;
-            pw.HasSpecialCharacters = checkBoxCaractSpeciaux.Checked;
+            pw.HasSpecialCharacters = checkBoxCaractSpeciaux.Checked;*/
 
             enableAll();
             clearAll();
@@ -156,13 +168,16 @@ namespace Generateur_de_mots_de_passe
         /// <param name="e"></param>
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
-            pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
+            //bindingSource1.DataSource = pw;
+            /*pw.SpecialCharacters = textBoxCaractSpeciaux.Text;
             pw.Length = trackBar1.Value;
             pw.HasUppercaseCharacters = checkBoxMaj.Checked;
             pw.HasDigitCharacters = checkBoxChiffres.Checked;
-            pw.HasSpecialCharacters = checkBoxCaractSpeciaux.Checked;
+            pw.HasSpecialCharacters = checkBoxCaractSpeciaux.Checked;*/
             pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters, pw.HasSpecialCharacters);
-            textBoxMotDePasse.Text = pw.PasswordValue;
+            //textBoxMotDePasse.Text = pw.PasswordValue;
+
+            bindingSource1.ResetBindings(false);
 
             buttonCopier.Enabled = true;
             checkBoxAfficher.Enabled = true;
@@ -226,25 +241,28 @@ namespace Generateur_de_mots_de_passe
                 if (isNewPasswordClicked && verification(newDescription) == false)
                 {
                     // Mise à jour des propriétés du mot de passe
-                    pw.Description = textBoxTitre.Text;
+                    /*pw.Description = textBoxTitre.Text;
                     pw.UserAccount = textBoxCodeUtilisateur.Text;
                     pw.URL = textBoxURL.Text;
                     pw.Note = textBoxNote.Text;
-                    pw.PasswordValue = textBoxMotDePasse.Text;
+                    pw.PasswordValue = textBoxMotDePasse.Text;*/
+
+                    demosBindingList.Add(pw);
 
                     // Ajouter un nouveau mot de passe
-                    passwordsList.Add(pw);
-                    listBox1.Items.Clear();
+                    //passwordsList.Add(pw);
+                    //listBox1.Items.Clear();
 
                     // Remplir la ListBox avec les mots de passe
-                    foreach (Password password in passwordsList)
+                    /*foreach (Password password in passwordsList)
                     {
                         listBox1.Items.Add(password);
-                    }
+                    }*/
 
                     // Sélectionne le nouveau mot de passe ajouté dans la liste
-                    int newIndex = listBox1.Items.IndexOf(pw);
-                    listBox1.SelectedIndex = newIndex;
+                    /*int newIndex = listBox1.Items.IndexOf(pw);
+                    listBox1.SelectedIndex = newIndex;*/
+                    listBox1.SelectedItem = pw;
 
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
@@ -255,13 +273,14 @@ namespace Generateur_de_mots_de_passe
                 }
                 else if (selectedIndex >= 0 && oldDescription == textBoxTitre.Text || verification(newDescription) == false)
                 {
-                    pw.Description = textBoxTitre.Text;
+                    /*pw.Description = textBoxTitre.Text;
                     pw.UserAccount = textBoxCodeUtilisateur.Text;
                     pw.URL = textBoxURL.Text;
                     pw.Note = textBoxNote.Text;
-                    pw.PasswordValue = textBoxMotDePasse.Text;
+                    pw.PasswordValue = textBoxMotDePasse.Text;*/
+
                     passwordsList[selectedIndex] = pw;
-                    listBox1.Items[selectedIndex] = pw;
+                    //listBox1.Items[selectedIndex] = pw;
 
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
@@ -278,6 +297,7 @@ namespace Generateur_de_mots_de_passe
 
             label6.Text = $"Il y a: {passwordsList.Count} éléments dans la liste des mots de passe.";
             pw = new Password();
+            demosBindingList = new BindingList<Password>(passwordsList);
         }
 
 
@@ -334,10 +354,15 @@ namespace Generateur_de_mots_de_passe
             if (selectedIndex >= 0)
             {
                 // Récupére le mot de passe sélectionné
-                pw = passwordsList[selectedIndex];
+                pw = (Password)listBox1.SelectedItem;
+                bindingSource1.DataSource = pw;
+
+                /*pw = passwordsList[selectedIndex];
+
+                bindingSource1.DataSource = pw;*/
 
                 // Pré-remplir les champs avec les données du mot de passe sélectionné
-                textBoxTitre.Text = pw.Description;
+                /*textBoxTitre.Text = pw.Description;
                 textBoxCodeUtilisateur.Text = pw.UserAccount;
                 textBoxURL.Text = pw.URL;
                 textBoxNote.Text = pw.Note;
@@ -347,7 +372,7 @@ namespace Generateur_de_mots_de_passe
                 checkBoxMaj.Checked = pw.HasUppercaseCharacters;
                 checkBoxChiffres.Checked = pw.HasDigitCharacters;
                 checkBoxCaractSpeciaux.Checked = pw.HasSpecialCharacters;
-                textBoxCaractSpeciaux.Text = pw.SpecialCharacters;
+                textBoxCaractSpeciaux.Text = pw.SpecialCharacters;*/
             }
         }
 
@@ -401,10 +426,6 @@ namespace Generateur_de_mots_de_passe
             disableAll();
             textBoxMotDePasse.UseSystemPasswordChar = true;
             label6.Text = $"Il y a: {passwordsList.Count} éléments dans la liste des mots de passe.";
-            textBoxTitre.Text = "";
-            textBoxCodeUtilisateur.Text = "";
-            textBoxURL.Text = "";
-            textBoxMotDePasse.Text = "";
             trackBar1.Value = 12;
             checkBoxMaj.Checked = false;
             checkBoxChiffres.Checked = false;
@@ -417,6 +438,7 @@ namespace Generateur_de_mots_de_passe
             buttonNouveauPassword.Enabled = true;
             textBoxMotDePasse.ReadOnly = true;
             buttonGenerer.Enabled = false;
+            
         }
 
         /// <summary>
