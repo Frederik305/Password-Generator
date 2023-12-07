@@ -41,6 +41,7 @@
             label4 = new Label();
             label5 = new Label();
             checkBoxMaj = new CheckBox();
+            bindingSource1 = new BindingSource(components);
             checkBoxChiffres = new CheckBox();
             checkBoxCaractSpeciaux = new CheckBox();
             checkBoxAfficher = new CheckBox();
@@ -63,6 +64,7 @@
             labelMessage = new Label();
             errorProvider1 = new ErrorProvider(components);
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             panel3.SuspendLayout();
@@ -190,6 +192,7 @@
             // checkBoxMaj
             // 
             checkBoxMaj.AutoSize = true;
+            checkBoxMaj.DataBindings.Add(new Binding("CheckState", bindingSource1, "HasUppercaseCharacters", true));
             checkBoxMaj.Location = new Point(28, 73);
             checkBoxMaj.Name = "checkBoxMaj";
             checkBoxMaj.Size = new Size(85, 19);
@@ -197,9 +200,14 @@
             checkBoxMaj.Text = "Majuscules";
             checkBoxMaj.UseVisualStyleBackColor = true;
             // 
+            // bindingSource1
+            // 
+            bindingSource1.DataSource = typeof(Password);
+            // 
             // checkBoxChiffres
             // 
             checkBoxChiffres.AutoSize = true;
+            checkBoxChiffres.DataBindings.Add(new Binding("CheckState", bindingSource1, "HasDigitCharacters", true));
             checkBoxChiffres.Location = new Point(28, 108);
             checkBoxChiffres.Name = "checkBoxChiffres";
             checkBoxChiffres.Size = new Size(67, 19);
@@ -210,6 +218,7 @@
             // checkBoxCaractSpeciaux
             // 
             checkBoxCaractSpeciaux.AutoSize = true;
+            checkBoxCaractSpeciaux.DataBindings.Add(new Binding("CheckState", bindingSource1, "HasSpecialCharacters", true));
             checkBoxCaractSpeciaux.Location = new Point(28, 145);
             checkBoxCaractSpeciaux.Name = "checkBoxCaractSpeciaux";
             checkBoxCaractSpeciaux.Size = new Size(130, 19);
@@ -254,6 +263,7 @@
             // 
             // textBoxTitre
             // 
+            textBoxTitre.DataBindings.Add(new Binding("Text", bindingSource1, "Description", true));
             textBoxTitre.Enabled = false;
             textBoxTitre.Location = new Point(114, 23);
             textBoxTitre.Name = "textBoxTitre";
@@ -262,6 +272,7 @@
             // 
             // textBoxMotDePasse
             // 
+            textBoxMotDePasse.DataBindings.Add(new Binding("Text", bindingSource1, "PasswordValue", true));
             textBoxMotDePasse.Enabled = false;
             textBoxMotDePasse.Location = new Point(114, 197);
             textBoxMotDePasse.Name = "textBoxMotDePasse";
@@ -270,6 +281,7 @@
             // 
             // textBoxCodeUtilisateur
             // 
+            textBoxCodeUtilisateur.DataBindings.Add(new Binding("Text", bindingSource1, "UserAccount", true));
             textBoxCodeUtilisateur.Enabled = false;
             textBoxCodeUtilisateur.Location = new Point(114, 64);
             textBoxCodeUtilisateur.Name = "textBoxCodeUtilisateur";
@@ -278,6 +290,7 @@
             // 
             // textBoxCaractSpeciaux
             // 
+            textBoxCaractSpeciaux.DataBindings.Add(new Binding("Text", bindingSource1, "SpecialCharacters", true));
             textBoxCaractSpeciaux.Location = new Point(164, 143);
             textBoxCaractSpeciaux.Name = "textBoxCaractSpeciaux";
             textBoxCaractSpeciaux.Size = new Size(187, 23);
@@ -311,6 +324,7 @@
             // 
             // trackBar1
             // 
+            trackBar1.DataBindings.Add(new Binding("Value", bindingSource1, "Length", true));
             trackBar1.Location = new Point(108, 36);
             trackBar1.Maximum = 50;
             trackBar1.Minimum = 6;
@@ -323,6 +337,7 @@
             // listBox1
             // 
             listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listBox1.DataSource = bindingSource1;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(-1, -1);
@@ -365,6 +380,7 @@
             // 
             textBoxNote.AcceptsReturn = true;
             textBoxNote.AcceptsTab = true;
+            textBoxNote.DataBindings.Add(new Binding("Text", bindingSource1, "Note", true));
             textBoxNote.Enabled = false;
             textBoxNote.Location = new Point(114, 140);
             textBoxNote.Multiline = true;
@@ -384,6 +400,7 @@
             // 
             // textBoxURL
             // 
+            textBoxURL.DataBindings.Add(new Binding("Text", bindingSource1, "URL", true));
             textBoxURL.Enabled = false;
             textBoxURL.Location = new Point(114, 111);
             textBoxURL.Name = "textBoxURL";
@@ -439,6 +456,7 @@
             Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
@@ -487,5 +505,6 @@
         private TextBox textBoxNote;
         private ErrorProvider errorProvider1;
         private Label labelMessage;
+        private BindingSource bindingSource1;
     }
 }
