@@ -19,10 +19,10 @@
         /// <param name="hasUppercaseCharacters">true si le password contient des maj</param>
         /// <param name="hasDigitCharacters">true si le password contient chiffres</param>
         /// <param name="hasSpecialCharacters">true si le password contient des charactere speciaux</param>
-        public void GenerateRandomPassword(string specialCharacters, int length, bool hasUppercaseCharacters, bool hasDigitCharacters, bool hasSpecialCharacters)
+        public void GenerateRandomPassword(string specialCharacters, int length, bool hasUppercaseCharacters, bool hasDigitCharacters, bool hasSpecialCharacters, int minLowercases, int minUppercases, int minDigit, int minSpecial)
         {
-            // Génération du mot de passe aléatoire en fonction des paramètres
             Random random = new Random();
+
             string validCharacters = LowerCaseCharacters;
 
             if (hasUppercaseCharacters)
@@ -40,14 +40,36 @@
                 validCharacters += specialCharacters;
             }
 
-            char[] passwordValue = new char[length];
+            string password = "";
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < minLowercases; i++)
             {
-                passwordValue[i] = validCharacters[random.Next(validCharacters.Length)];
+                password += LowerCaseCharacters[random.Next(LowerCaseCharacters.Length)];
             }
 
-            PasswordValue = new string(passwordValue); // Défini la valeur du mot de passe généré
+            for (int i = 0; i < minUppercases; i++)
+            {
+                password += UpperCaseCharacters()[random.Next(UpperCaseCharacters().Length)];
+            }
+
+            for (int i = 0; i < minDigit; i++)
+            {
+                password += DigitCharacters[random.Next(DigitCharacters.Length)];
+            }
+
+            for (int i = 0; i < minSpecial; i++)
+            {
+                password += specialCharacters[random.Next(specialCharacters.Length)];
+            }
+
+            for (int i = password.Length; i < length; i++)
+            {
+                password += validCharacters[random.Next(validCharacters.Length)];
+            }
+
+            password = new string(password.ToCharArray().OrderBy(x => random.Next()).ToArray());
+
+            PasswordValue = new string(password);
         }
 
         /// <summary>
@@ -99,6 +121,10 @@
         /// Propriété : Indique si le mot de passe doit contenir des charactere speciaux.
         /// </summary>
         public bool HasSpecialCharacters {  get; set; }
+
+        public int MinCharacters { get; set; }
+
+        public int ValDefault { get; set; }
 
         /// <summary>
         /// Méthode statique : Retourne une chaîne de caractères en majuscules basée sur l'ensemble de caractères en minuscules.

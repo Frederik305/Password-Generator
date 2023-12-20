@@ -61,7 +61,17 @@
             labelURL = new Label();
             textBoxURL = new TextBox();
             splitContainer1 = new SplitContainer();
+            label10 = new Label();
+            label9 = new Label();
+            label8 = new Label();
+            label7 = new Label();
+            trackBar5 = new TrackBar();
+            trackBar4 = new TrackBar();
+            trackBar3 = new TrackBar();
+            trackBar2 = new TrackBar();
             labelMessage = new Label();
+            menuStrip1 = new MenuStrip();
+            paramètreToolStripMenuItem = new ToolStripMenuItem();
             errorProvider1 = new ErrorProvider(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
@@ -72,6 +82,11 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBar5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
+            menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
@@ -83,7 +98,7 @@
             panel1.Controls.Add(buttonSauvgarderPassword);
             panel1.Controls.Add(buttonModifierPassword);
             panel1.Controls.Add(buttonNouveauPassword);
-            panel1.Location = new Point(53, 0);
+            panel1.Location = new Point(142, 29);
             panel1.Name = "panel1";
             panel1.Size = new Size(554, 80);
             panel1.TabIndex = 1;
@@ -308,7 +323,7 @@
             panel2.Controls.Add(checkBoxMaj);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label4);
-            panel2.Location = new Point(131, 372);
+            panel2.Location = new Point(73, 409);
             panel2.Name = "panel2";
             panel2.Size = new Size(379, 177);
             panel2.TabIndex = 17;
@@ -342,7 +357,7 @@
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(-1, -1);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(305, 634);
+            listBox1.Size = new Size(367, 634);
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
@@ -362,7 +377,7 @@
             panel3.Controls.Add(label3);
             panel3.Controls.Add(buttonGenerer);
             panel3.Controls.Add(checkBoxAfficher);
-            panel3.Location = new Point(86, 86);
+            panel3.Location = new Point(172, 115);
             panel3.Name = "panel3";
             panel3.Size = new Size(492, 280);
             panel3.TabIndex = 18;
@@ -420,13 +435,86 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(label10);
+            splitContainer1.Panel2.Controls.Add(label9);
+            splitContainer1.Panel2.Controls.Add(label8);
+            splitContainer1.Panel2.Controls.Add(label7);
+            splitContainer1.Panel2.Controls.Add(trackBar5);
+            splitContainer1.Panel2.Controls.Add(trackBar4);
+            splitContainer1.Panel2.Controls.Add(trackBar3);
+            splitContainer1.Panel2.Controls.Add(trackBar2);
             splitContainer1.Panel2.Controls.Add(labelMessage);
             splitContainer1.Panel2.Controls.Add(panel2);
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
-            splitContainer1.Size = new Size(947, 638);
-            splitContainer1.SplitterDistance = 298;
+            splitContainer1.Panel2.Controls.Add(menuStrip1);
+            splitContainer1.Size = new Size(1147, 638);
+            splitContainer1.SplitterDistance = 360;
             splitContainer1.TabIndex = 19;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(693, 542);
+            label10.Name = "label10";
+            label10.Size = new Size(44, 15);
+            label10.TabIndex = 28;
+            label10.Text = "label10";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(693, 507);
+            label9.Name = "label9";
+            label9.Size = new Size(38, 15);
+            label9.TabIndex = 27;
+            label9.Text = "label9";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(693, 472);
+            label8.Name = "label8";
+            label8.Size = new Size(38, 15);
+            label8.TabIndex = 26;
+            label8.Text = "label8";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(693, 435);
+            label7.Name = "label7";
+            label7.Size = new Size(38, 15);
+            label7.TabIndex = 25;
+            label7.Text = "label7";
+            // 
+            // trackBar5
+            // 
+            trackBar5.Location = new Point(518, 542);
+            trackBar5.Name = "trackBar5";
+            trackBar5.Size = new Size(169, 45);
+            trackBar5.TabIndex = 24;
+            // 
+            // trackBar4
+            // 
+            trackBar4.Location = new Point(518, 507);
+            trackBar4.Name = "trackBar4";
+            trackBar4.Size = new Size(169, 45);
+            trackBar4.TabIndex = 23;
+            // 
+            // trackBar3
+            // 
+            trackBar3.Location = new Point(518, 472);
+            trackBar3.Name = "trackBar3";
+            trackBar3.Size = new Size(169, 45);
+            trackBar3.TabIndex = 22;
+            // 
+            // trackBar2
+            // 
+            trackBar2.Location = new Point(518, 435);
+            trackBar2.Name = "trackBar2";
+            trackBar2.Size = new Size(169, 45);
+            trackBar2.TabIndex = 21;
             // 
             // labelMessage
             // 
@@ -434,10 +522,26 @@
             labelMessage.AutoSize = true;
             labelMessage.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             labelMessage.ForeColor = SystemColors.ControlText;
-            labelMessage.Location = new Point(64, 589);
+            labelMessage.Location = new Point(202, 589);
             labelMessage.Name = "labelMessage";
             labelMessage.Size = new Size(0, 25);
             labelMessage.TabIndex = 19;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { paramètreToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(781, 24);
+            menuStrip1.TabIndex = 20;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // paramètreToolStripMenuItem
+            // 
+            paramètreToolStripMenuItem.Name = "paramètreToolStripMenuItem";
+            paramètreToolStripMenuItem.Size = new Size(78, 20);
+            paramètreToolStripMenuItem.Text = "Paramètres";
+            paramètreToolStripMenuItem.Click += paramètreToolStripMenuItem_Click;
             // 
             // errorProvider1
             // 
@@ -448,8 +552,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(946, 635);
+            ClientSize = new Size(1146, 635);
             Controls.Add(splitContainer1);
+            MainMenuStrip = menuStrip1;
             MinimumSize = new Size(950, 524);
             Name = "Form1";
             Text = "Form1";
@@ -467,6 +572,12 @@
             splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)trackBar5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
@@ -506,5 +617,15 @@
         private ErrorProvider errorProvider1;
         private Label labelMessage;
         private BindingSource bindingSource1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem paramètreToolStripMenuItem;
+        private TrackBar trackBar5;
+        private TrackBar trackBar4;
+        private TrackBar trackBar3;
+        private TrackBar trackBar2;
+        private Label label10;
+        private Label label9;
+        private Label label8;
+        private Label label7;
     }
 }

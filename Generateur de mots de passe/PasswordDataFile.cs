@@ -30,25 +30,31 @@ namespace PwdGen
         /// <param name="fileDirectory">Répertoire du fichier (optionnel)</param>
         public PasswordDataFile(string fileName, string fileDirectory = "")
         {
-            if (string.IsNullOrWhiteSpace(fileName)) throw new ArgumentNullException(nameof(fileName));
+            /*this.fileName = fileName;
+            this.fileDirectory = fileDirectory;*/
 
-            this.fileName = fileName.Trim();
-
-            if (string.IsNullOrWhiteSpace(fileDirectory))
-                this.fileDirectory = AppDomain.CurrentDomain.BaseDirectory; // Chemin actuel de l'application
-            else
+            if (File.Exists(filePath))
             {
-                if (!Directory.Exists(fileDirectory))
-                    throw new DirectoryNotFoundException(nameof(fileDirectory));
-                this.fileDirectory = fileDirectory.Trim();
-            }
+                if (string.IsNullOrWhiteSpace(fileName)) throw new ArgumentNullException(nameof(fileName));
 
-            try
-            {
-                this.filePath = Path.Combine(this.fileDirectory, this.fileName);
-            }
-            catch { throw; }
+                this.fileName = fileName.Trim();
 
+                if (string.IsNullOrWhiteSpace(fileDirectory))
+                    this.fileDirectory = AppDomain.CurrentDomain.BaseDirectory; // Chemin actuel de l'application
+                else
+                {
+                    if (!Directory.Exists(fileDirectory))
+                        throw new DirectoryNotFoundException(nameof(fileDirectory));
+                    this.fileDirectory = fileDirectory.Trim();
+                }
+
+                try
+                {
+                    this.filePath = Path.Combine(this.fileDirectory, this.fileName);
+                }
+                catch { throw; }
+            }
+            else { }
         }
 
         /// <summary>
@@ -56,8 +62,6 @@ namespace PwdGen
         /// </summary>
         /// <param name="passwordsList">List de mots de passe</param>
         /// <exception cref="ArgumentNullException"></exception>
-
-
         public void Save(List<Password> passwordsList)
         {
             if (passwordsList == null)

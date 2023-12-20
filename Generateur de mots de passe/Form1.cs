@@ -10,10 +10,16 @@ namespace Generateur_de_mots_de_passe
     {
         // Attributs de la classe Form1
 
+        /*SettingsForm? settingsForm;
+
+        private string fileName;
+        private string fileDirectory;
+        private string defaultCarSpeciaux;*/
+
         /// <summary>
         /// Fichier de sauvegarde des mots de passe.
         /// </summary>
-        private PasswordDataFile pwdFile = new PasswordDataFile("pwd");
+        private PasswordDataFile pwdFile;
 
         /// <summary>
         /// Liste pour stocker les mots de passe.
@@ -42,6 +48,8 @@ namespace Generateur_de_mots_de_passe
         /// </summary>
         private bool IsGen = false;
 
+        private TrackBar[] trackBars;
+
         /// <summary>
         /// Constructeur de la classe Form1.
         /// Initialise les composants graphiques de la fenêtre.
@@ -49,6 +57,7 @@ namespace Generateur_de_mots_de_passe
         public Form1()
         {
             InitializeComponent();
+            InitializeTrackBars();
         }
 
         /// <summary>
@@ -59,6 +68,8 @@ namespace Generateur_de_mots_de_passe
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadSettingsFromFile();
+            pwdFile = new PasswordDataFile("pwd");
             try
             {
                 passwordsList = pwdFile.Load();
@@ -66,7 +77,8 @@ namespace Generateur_de_mots_de_passe
                 listBox1.DataSource = demosBindingList;
                 listBox1.DisplayMember = "Description";
             }
-            catch (Exception) { }
+            catch (Exception) { demosBindingList = new BindingList<Password>(passwordsList); }
+
 
             baseValues();
         }
@@ -121,6 +133,7 @@ namespace Generateur_de_mots_de_passe
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             PasswordLenghtDisplay.Text = trackBar1.Value.ToString();
+            trackBar2.Maximum = trackBar1.Value; trackBar3.Maximum = trackBar1.Value; trackBar4.Maximum = trackBar1.Value; trackBar5.Maximum = trackBar1.Value;
         }
 
         /// <summary>
@@ -151,7 +164,7 @@ namespace Generateur_de_mots_de_passe
         /// <param name="e"></param>
         private void buttonGenerer_Click(object sender, EventArgs e)
         {
-            pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters, pw.HasSpecialCharacters);
+            pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters, pw.HasSpecialCharacters, trackBar2.Value, trackBar3.Value, trackBar4.Value, trackBar5.Value);
 
             bindingSource1.ResetBindings(false);
 
@@ -293,6 +306,10 @@ namespace Generateur_de_mots_de_passe
                 checkBoxChiffres.Enabled = false;
                 checkBoxMaj.Enabled = false;
                 trackBar1.Enabled = false;
+
+                PasswordLenghtDisplay.Text = pw.Length.ToString();
+                trackBar2.Maximum = pw.Length; trackBar3.Maximum = pw.Length; trackBar4.Maximum = pw.Length; trackBar5.Maximum = pw.Length;
+
                 readOnlyAllTextBox(true);
             }
             if (IsGen == true) { IsGen = false; }
@@ -311,6 +328,7 @@ namespace Generateur_de_mots_de_passe
                 // Récupére le mot de passe sélectionné
                 pw = (Password)listBox1.SelectedItem;
                 bindingSource1.DataSource = pw;
+                trackBar1.Value = pw.Length;
             }
         }
 
@@ -450,6 +468,99 @@ namespace Generateur_de_mots_de_passe
             textBoxCodeUtilisateur.ReadOnly = readOnly;
             textBoxURL.ReadOnly = readOnly;
             textBoxNote.ReadOnly = readOnly;
+        }
+
+        private void InitializeTrackBars()
+        {
+            trackBars = new TrackBar[] { trackBar2, trackBar3, trackBar4, trackBar5 };
+
+            foreach (var trackBar in trackBars)
+            {
+                trackBar.Maximum = trackBar1.Value;
+                trackBar.Scroll += TrackBar_Scroll;
+            }
+            label7.Text = trackBar2.Value.ToString();
+            label8.Text = trackBar3.Value.ToString();
+            label9.Text = trackBar4.Value.ToString();
+            label10.Text = trackBar5.Value.ToString();
+        }
+
+        private void TrackBar_Scroll(object sender, EventArgs e)
+        {
+            int totalSum = 0;
+            foreach (var trackBar in trackBars)
+            {
+                totalSum += trackBar.Value;
+            }
+
+            int newMaxValue = trackBar1.Value - totalSum;
+            foreach (var trackBar in trackBars)
+            {
+                trackBar.Maximum = newMaxValue + trackBar.Value;
+            }
+            label7.Text = trackBar2.Value.ToString();
+            label8.Text = trackBar3.Value.ToString();
+            label9.Text = trackBar4.Value.ToString();
+            label10.Text = trackBar5.Value.ToString();
+        }
+
+        private void paramètreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*if (settingsForm == null)
+            {
+                // Si elle n'existe pas, crée une nouvelle instance en passant les informations de connexion
+                settingsForm = new SettingsForm(fileName, fileDirectory, defaultCarSpeciaux);
+            }
+
+            // Affiche la fenêtre de liste des tables en mode dialogue
+            settingsForm.ShowDialog();*/
+        }
+        private void LoadSettingsFromFile()
+        {
+            /*try
+            {
+                string filePath = "settings";
+
+                if (File.Exists(filePath))
+                {
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(':');
+                            if (parts.Length == 2)
+                            {
+                                string key = parts[0].Trim();
+                                string value = parts[1].Trim();
+
+                                switch (key)
+                                {
+                                    case "File Name":
+                                        fileName = value;
+                                        break;
+                                    case "File Directory":
+                                        fileDirectory = value;
+                                        break;
+                                    case "Default Caractere Speciaux":
+                                        defaultCarSpeciaux = value;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Settings loaded successfully!");
+                }
+                else
+                {
+                    MessageBox.Show("Settings file not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error occurred while loading settings: {ex.Message}");
+            }*/
         }
     }
 }
