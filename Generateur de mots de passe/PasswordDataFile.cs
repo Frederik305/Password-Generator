@@ -28,33 +28,29 @@ namespace PwdGen
         /// </summary>
         /// <param name="fileName">Nom du fichier</param>
         /// <param name="fileDirectory">Répertoire du fichier (optionnel)</param>
-        public PasswordDataFile(string fileName, string fileDirectory = "")
+        public PasswordDataFile(string fileName, string fileDirectory)
         {
-            /*this.fileName = fileName;
-            this.fileDirectory = fileDirectory;*/
+            if (fileName == string.Empty) { fileName = "pwd"; }
+            if (fileDirectory == string.Empty) { fileDirectory = ""; }
+            if (string.IsNullOrWhiteSpace(fileName)) throw new ArgumentNullException(nameof(fileName));
 
-            if (File.Exists(filePath))
+            this.fileName = fileName.Trim();
+
+            if (string.IsNullOrWhiteSpace(fileDirectory))
+                this.fileDirectory = AppDomain.CurrentDomain.BaseDirectory; // Chemin actuel de l'application
+            else
             {
-                if (string.IsNullOrWhiteSpace(fileName)) throw new ArgumentNullException(nameof(fileName));
-
-                this.fileName = fileName.Trim();
-
-                if (string.IsNullOrWhiteSpace(fileDirectory))
-                    this.fileDirectory = AppDomain.CurrentDomain.BaseDirectory; // Chemin actuel de l'application
-                else
-                {
-                    if (!Directory.Exists(fileDirectory))
-                        throw new DirectoryNotFoundException(nameof(fileDirectory));
-                    this.fileDirectory = fileDirectory.Trim();
-                }
-
-                try
-                {
-                    this.filePath = Path.Combine(this.fileDirectory, this.fileName);
-                }
-                catch { throw; }
+                if (!Directory.Exists(fileDirectory))
+                    throw new DirectoryNotFoundException(nameof(fileDirectory));
+                this.fileDirectory = fileDirectory.Trim();
             }
-            else { }
+
+            try
+            {
+                this.filePath = Path.Combine(this.fileDirectory, this.fileName);
+            }
+            catch { throw; }
+
         }
 
         /// <summary>
@@ -62,6 +58,8 @@ namespace PwdGen
         /// </summary>
         /// <param name="passwordsList">List de mots de passe</param>
         /// <exception cref="ArgumentNullException"></exception>
+
+
         public void Save(List<Password> passwordsList)
         {
             if (passwordsList == null)

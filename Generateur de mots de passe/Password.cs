@@ -122,9 +122,15 @@
         /// </summary>
         public bool HasSpecialCharacters {  get; set; }
 
-        public int MinCharacters { get; set; }
+        /// <summary>
+        /// Propriété : garde la date de creation.
+        /// </summary>
+        public string? DateCreation { get; set; }
 
-        public int ValDefault { get; set; }
+        /// <summary>
+        /// Propriété : garde la date de derniere modification.
+        /// </summary>
+        public string? DateDernieremodif { get; set; }
 
         /// <summary>
         /// Méthode statique : Retourne une chaîne de caractères en majuscules basée sur l'ensemble de caractères en minuscules.

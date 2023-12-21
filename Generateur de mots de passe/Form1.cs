@@ -1,5 +1,7 @@
 using PwdGen;
+using Zxcvbn;
 using System.ComponentModel;
+using System.Data;
 
 namespace Generateur_de_mots_de_passe
 {
@@ -10,11 +12,11 @@ namespace Generateur_de_mots_de_passe
     {
         // Attributs de la classe Form1
 
-        /*SettingsForm? settingsForm;
+        SettingsForm? settingsForm;
 
         private string fileName;
         private string fileDirectory;
-        private string defaultCarSpeciaux;*/
+        private string defaultCarSpeciaux;
 
         /// <summary>
         /// Fichier de sauvegarde des mots de passe.
@@ -69,7 +71,7 @@ namespace Generateur_de_mots_de_passe
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadSettingsFromFile();
-            pwdFile = new PasswordDataFile("pwd");
+            pwdFile = new PasswordDataFile(fileName, fileDirectory);
             try
             {
                 passwordsList = pwdFile.Load();
@@ -78,7 +80,6 @@ namespace Generateur_de_mots_de_passe
                 listBox1.DisplayMember = "Description";
             }
             catch (Exception) { demosBindingList = new BindingList<Password>(passwordsList); }
-
 
             baseValues();
         }
@@ -100,7 +101,13 @@ namespace Generateur_de_mots_de_passe
             enableAll();
             clearAll();
             readOnlyAllTextBox(false);
-            textBoxMotDePasse.ReadOnly = true;
+            VerifyPassword();
+            if (defaultCarSpeciaux != string.Empty)
+            {
+                pw.HasSpecialCharacters = true;
+                pw.SpecialCharacters = defaultCarSpeciaux;
+                bindingSource1.ResetBindings(false);
+            }
             textBoxCaractSpeciaux.ReadOnly = true;
         }
 
@@ -133,7 +140,7 @@ namespace Generateur_de_mots_de_passe
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             PasswordLenghtDisplay.Text = trackBar1.Value.ToString();
-            trackBar2.Maximum = trackBar1.Value; trackBar3.Maximum = trackBar1.Value; trackBar4.Maximum = trackBar1.Value; trackBar5.Maximum = trackBar1.Value;
+            InitializeTrackBars();
         }
 
         /// <summary>
@@ -153,8 +160,18 @@ namespace Generateur_de_mots_de_passe
         /// <param name="e"></param>
         private void checkBoxCaractSpeciaux_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBoxCaractSpeciaux.Checked) { textBoxCaractSpeciaux.ReadOnly = false; }
-            else { textBoxCaractSpeciaux.ReadOnly = true; textBoxCaractSpeciaux.Text = string.Empty; }
+            if (checkBoxCaractSpeciaux.Checked)
+            {
+                trackBar5.Enabled = true;
+                textBoxCaractSpeciaux.ReadOnly = false;
+                if (defaultCarSpeciaux != string.Empty)
+                {
+                    pw.HasSpecialCharacters = true;
+                    pw.SpecialCharacters = defaultCarSpeciaux;
+                    bindingSource1.ResetBindings(false);
+                }
+            }
+            else { textBoxCaractSpeciaux.ReadOnly = true; textBoxCaractSpeciaux.Text = string.Empty; trackBar5.Enabled = false; trackBar5.Value = 0; label10.Text = trackBar5.Value.ToString(); InitializeTrackBars(); }
         }
 
         /// <summary>
@@ -167,6 +184,8 @@ namespace Generateur_de_mots_de_passe
             pw.GenerateRandomPassword(pw.SpecialCharacters, pw.Length, pw.HasUppercaseCharacters, pw.HasDigitCharacters, pw.HasSpecialCharacters, trackBar2.Value, trackBar3.Value, trackBar4.Value, trackBar5.Value);
 
             bindingSource1.ResetBindings(false);
+
+            VerifyPassword();
 
             buttonCopier.Enabled = true;
             checkBoxAfficher.Enabled = true;
@@ -238,6 +257,11 @@ namespace Generateur_de_mots_de_passe
 
                     listBox1.SelectedIndex = newIndex;
 
+                    DateTime currentDate = DateTime.Now;
+                    pw.DateCreation = ("Date de Creation: " + currentDate.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                    //label17.Text = pw.DateCreation;
+
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
 
@@ -251,6 +275,9 @@ namespace Generateur_de_mots_de_passe
 
                     listBox1.DataSource = null;
                     listBox1.DataSource = demosBindingList;
+
+                    DateTime currentDate = DateTime.Now;
+                    pw.DateDernieremodif = ("Date de dernière modification: " + currentDate.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     try { pwdFile.Save(passwordsList); } catch (Exception ex) { MessageBox.Show(ex.Message); }
                     errorProvider1.Clear();
@@ -306,6 +333,10 @@ namespace Generateur_de_mots_de_passe
                 checkBoxChiffres.Enabled = false;
                 checkBoxMaj.Enabled = false;
                 trackBar1.Enabled = false;
+                trackBar2.Enabled = false;
+                trackBar3.Enabled = false;
+                trackBar4.Enabled = false;
+                trackBar5.Enabled = false;
 
                 PasswordLenghtDisplay.Text = pw.Length.ToString();
                 trackBar2.Maximum = pw.Length; trackBar3.Maximum = pw.Length; trackBar4.Maximum = pw.Length; trackBar5.Maximum = pw.Length;
@@ -329,6 +360,7 @@ namespace Generateur_de_mots_de_passe
                 pw = (Password)listBox1.SelectedItem;
                 bindingSource1.DataSource = pw;
                 trackBar1.Value = pw.Length;
+                VerifyPassword();
             }
         }
 
@@ -392,9 +424,7 @@ namespace Generateur_de_mots_de_passe
             buttonEffacerPassword.Enabled = false;
             buttonModifierPassword.Enabled = false;
             buttonNouveauPassword.Enabled = true;
-            textBoxMotDePasse.ReadOnly = true;
             buttonGenerer.Enabled = false;
-
         }
 
         /// <summary>
@@ -418,6 +448,10 @@ namespace Generateur_de_mots_de_passe
             PasswordLenghtDisplay.Enabled = false;
             buttonCopier.Enabled = false;
             checkBoxAfficher.Enabled = false;
+            trackBar2.Enabled = false;
+            trackBar3.Enabled = false;
+            trackBar4.Enabled = false;
+            trackBar5.Enabled = false;
         }
 
         /// <summary>
@@ -442,6 +476,7 @@ namespace Generateur_de_mots_de_passe
             PasswordLenghtDisplay.Enabled = true;
             buttonCopier.Enabled = true;
             checkBoxAfficher.Enabled = true;
+            trackBar2.Enabled = true;
         }
 
         /// <summary>
@@ -468,8 +503,12 @@ namespace Generateur_de_mots_de_passe
             textBoxCodeUtilisateur.ReadOnly = readOnly;
             textBoxURL.ReadOnly = readOnly;
             textBoxNote.ReadOnly = readOnly;
+            textBoxMotDePasse.ReadOnly = readOnly;
         }
 
+        /// <summary>
+        /// Méthode pour syncroniser les trackBars de min
+        /// </summary>
         private void InitializeTrackBars()
         {
             trackBars = new TrackBar[] { trackBar2, trackBar3, trackBar4, trackBar5 };
@@ -485,6 +524,11 @@ namespace Generateur_de_mots_de_passe
             label10.Text = trackBar5.Value.ToString();
         }
 
+        /// <summary>
+        /// Méthode pour syncroniser les trackBars de min lors d'un scroll
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             int totalSum = 0;
@@ -504,20 +548,28 @@ namespace Generateur_de_mots_de_passe
             label10.Text = trackBar5.Value.ToString();
         }
 
+        /// <summary>
+        /// Méthode pour ouvrir le form de settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void paramètreToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*if (settingsForm == null)
+            if (settingsForm == null)
             {
                 // Si elle n'existe pas, crée une nouvelle instance en passant les informations de connexion
                 settingsForm = new SettingsForm(fileName, fileDirectory, defaultCarSpeciaux);
             }
 
             // Affiche la fenêtre de liste des tables en mode dialogue
-            settingsForm.ShowDialog();*/
+            settingsForm.ShowDialog();
         }
+        /// <summary>
+        /// Méthode pour charger les valeurs du ficher settings
+        /// </summary>
         private void LoadSettingsFromFile()
         {
-            /*try
+            try
             {
                 string filePath = "settings";
 
@@ -540,6 +592,7 @@ namespace Generateur_de_mots_de_passe
                                         fileName = value;
                                         break;
                                     case "File Directory":
+                                        // Je ne comprend pas pourquoi. Je n'arrive pas a prendre la valeur dans mon ficher settings
                                         fileDirectory = value;
                                         break;
                                     case "Default Caractere Speciaux":
@@ -549,18 +602,69 @@ namespace Generateur_de_mots_de_passe
                             }
                         }
                     }
-
-                    MessageBox.Show("Settings loaded successfully!");
+                    // MessageBox.Show("Settings loader avec succes!");
                 }
-                else
+                else { MessageBox.Show("Fichier settings non trouver."); }
+            }
+            catch (Exception ex) { MessageBox.Show($"Erreur lors du load des settings: {ex.Message}"); }
+        }
+
+        /// <summary>
+        /// Methode pour verifier la securiter du mot de passe
+        /// </summary>
+        private void VerifyPassword()
+        {
+            if (textBoxMotDePasse.Text != string.Empty)
+            {
+                Result result = Zxcvbn.Core.EvaluatePassword(textBoxMotDePasse.Text);
+                switch (result.Score)
                 {
-                    MessageBox.Show("Settings file not found.");
+                    case 0:
+                        label16.Text = $"Le mot de passe est très faible";
+                        label16.ForeColor = Color.Red;
+                        break;
+                    case 1:
+                        label16.Text = $"Le mot de passe est faible";
+                        label16.ForeColor = Color.Orange;
+                        break;
+                    case 2:
+                        label16.Text = $"Le mot de passe est moyen";
+                        label16.ForeColor = Color.Black;
+                        break;
+                    case 3:
+                        label16.Text = $"Le mot de passe est fort";
+                        label16.ForeColor = Color.YellowGreen;
+                        break;
+                    case 4:
+                        label16.Text = $"Le mot de passe est très fort";
+                        label16.ForeColor = Color.Green;
+                        break;
                 }
             }
-            catch (Exception ex)
+            else { label16.Text = "Le mot de passe est très faible ou n'existe pas"; label16.ForeColor = Color.Red; }
+        }
+
+        private void textBoxMotDePasse_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            VerifyPassword();
+        }
+
+        private void checkBoxMaj_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxMaj.Checked)
             {
-                MessageBox.Show($"Error occurred while loading settings: {ex.Message}");
-            }*/
+                trackBar3.Enabled = true;
+            }
+            else { trackBar3.Enabled = false; trackBar3.Value = 0; label8.Text = trackBar3.Value.ToString(); InitializeTrackBars(); }
+        }
+
+        private void checkBoxChiffres_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxChiffres.Checked)
+            {
+                trackBar4.Enabled = true;
+            }
+            else { trackBar4.Enabled = false; trackBar4.Value = 0; label9.Text = trackBar4.Value.ToString(); InitializeTrackBars(); }
         }
     }
 }

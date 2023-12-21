@@ -56,11 +56,18 @@
             trackBar1 = new TrackBar();
             listBox1 = new ListBox();
             panel3 = new Panel();
+            label16 = new Label();
             labelNote = new Label();
             textBoxNote = new TextBox();
             labelURL = new Label();
             textBoxURL = new TextBox();
             splitContainer1 = new SplitContainer();
+            label18 = new Label();
+            label17 = new Label();
+            label14 = new Label();
+            label13 = new Label();
+            label12 = new Label();
+            label11 = new Label();
             label10 = new Label();
             label9 = new Label();
             label8 = new Label();
@@ -71,8 +78,8 @@
             trackBar2 = new TrackBar();
             labelMessage = new Label();
             menuStrip1 = new MenuStrip();
-            paramètreToolStripMenuItem = new ToolStripMenuItem();
             errorProvider1 = new ErrorProvider(components);
+            paramètreToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             panel2.SuspendLayout();
@@ -98,7 +105,7 @@
             panel1.Controls.Add(buttonSauvgarderPassword);
             panel1.Controls.Add(buttonModifierPassword);
             panel1.Controls.Add(buttonNouveauPassword);
-            panel1.Location = new Point(142, 29);
+            panel1.Location = new Point(141, 27);
             panel1.Name = "panel1";
             panel1.Size = new Size(554, 80);
             panel1.TabIndex = 1;
@@ -214,6 +221,7 @@
             checkBoxMaj.TabIndex = 7;
             checkBoxMaj.Text = "Majuscules";
             checkBoxMaj.UseVisualStyleBackColor = true;
+            checkBoxMaj.CheckedChanged += checkBoxMaj_CheckedChanged;
             // 
             // bindingSource1
             // 
@@ -229,6 +237,7 @@
             checkBoxChiffres.TabIndex = 8;
             checkBoxChiffres.Text = "Chiffres";
             checkBoxChiffres.UseVisualStyleBackColor = true;
+            checkBoxChiffres.CheckedChanged += checkBoxChiffres_CheckedChanged;
             // 
             // checkBoxCaractSpeciaux
             // 
@@ -246,7 +255,7 @@
             // 
             checkBoxAfficher.AutoSize = true;
             checkBoxAfficher.Enabled = false;
-            checkBoxAfficher.Location = new Point(400, 199);
+            checkBoxAfficher.Location = new Point(400, 172);
             checkBoxAfficher.Name = "checkBoxAfficher";
             checkBoxAfficher.Size = new Size(68, 19);
             checkBoxAfficher.TabIndex = 10;
@@ -268,7 +277,7 @@
             // buttonGenerer
             // 
             buttonGenerer.Enabled = false;
-            buttonGenerer.Location = new Point(114, 226);
+            buttonGenerer.Location = new Point(400, 197);
             buttonGenerer.Name = "buttonGenerer";
             buttonGenerer.Size = new Size(75, 23);
             buttonGenerer.TabIndex = 12;
@@ -293,6 +302,7 @@
             textBoxMotDePasse.Name = "textBoxMotDePasse";
             textBoxMotDePasse.Size = new Size(268, 23);
             textBoxMotDePasse.TabIndex = 14;
+            textBoxMotDePasse.KeyPress += textBoxMotDePasse_KeyPress;
             // 
             // textBoxCodeUtilisateur
             // 
@@ -323,7 +333,7 @@
             panel2.Controls.Add(checkBoxMaj);
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label4);
-            panel2.Location = new Point(73, 409);
+            panel2.Location = new Point(31, 437);
             panel2.Name = "panel2";
             panel2.Size = new Size(379, 177);
             panel2.TabIndex = 17;
@@ -357,13 +367,14 @@
             listBox1.ItemHeight = 15;
             listBox1.Location = new Point(-1, -1);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(367, 634);
+            listBox1.Size = new Size(380, 634);
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // panel3
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panel3.Controls.Add(label16);
             panel3.Controls.Add(labelNote);
             panel3.Controls.Add(textBoxNote);
             panel3.Controls.Add(labelURL);
@@ -377,10 +388,19 @@
             panel3.Controls.Add(label3);
             panel3.Controls.Add(buttonGenerer);
             panel3.Controls.Add(checkBoxAfficher);
-            panel3.Location = new Point(172, 115);
+            panel3.Location = new Point(171, 151);
             panel3.Name = "panel3";
             panel3.Size = new Size(492, 280);
             panel3.TabIndex = 18;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(20, 244);
+            label16.Name = "label16";
+            label16.Size = new Size(36, 15);
+            label16.TabIndex = 20;
+            label16.Text = "Score";
             // 
             // labelNote
             // 
@@ -435,6 +455,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(label18);
+            splitContainer1.Panel2.Controls.Add(label17);
+            splitContainer1.Panel2.Controls.Add(label14);
+            splitContainer1.Panel2.Controls.Add(label13);
+            splitContainer1.Panel2.Controls.Add(label12);
+            splitContainer1.Panel2.Controls.Add(label11);
             splitContainer1.Panel2.Controls.Add(label10);
             splitContainer1.Panel2.Controls.Add(label9);
             splitContainer1.Panel2.Controls.Add(label8);
@@ -448,14 +474,70 @@
             splitContainer1.Panel2.Controls.Add(panel1);
             splitContainer1.Panel2.Controls.Add(panel3);
             splitContainer1.Panel2.Controls.Add(menuStrip1);
-            splitContainer1.Size = new Size(1147, 638);
-            splitContainer1.SplitterDistance = 360;
+            splitContainer1.Size = new Size(1191, 638);
+            splitContainer1.SplitterDistance = 373;
             splitContainer1.TabIndex = 19;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.DataBindings.Add(new Binding("Text", bindingSource1, "DateDernieremodif", true));
+            label18.Location = new Point(171, 133);
+            label18.Name = "label18";
+            label18.Size = new Size(44, 15);
+            label18.TabIndex = 34;
+            label18.Text = "label18";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.DataBindings.Add(new Binding("Text", bindingSource1, "DateCreation", true));
+            label17.Location = new Point(171, 110);
+            label17.Name = "label17";
+            label17.Size = new Size(44, 15);
+            label17.TabIndex = 33;
+            label17.Text = "label17";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(416, 570);
+            label14.Name = "label14";
+            label14.Size = new Size(136, 15);
+            label14.TabIndex = 31;
+            label14.Text = "Min caracteres speciaux:";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(494, 535);
+            label13.Name = "label13";
+            label13.Size = new Size(58, 15);
+            label13.TabIndex = 30;
+            label13.Text = "Min digit:";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(459, 500);
+            label12.Name = "label12";
+            label12.Size = new Size(93, 15);
+            label12.TabIndex = 29;
+            label12.Text = "Min majuscules:";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(458, 468);
+            label11.Name = "label11";
+            label11.Size = new Size(94, 15);
+            label11.TabIndex = 20;
+            label11.Text = "Min minuscules:";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(693, 542);
+            label10.Location = new Point(733, 570);
             label10.Name = "label10";
             label10.Size = new Size(44, 15);
             label10.TabIndex = 28;
@@ -464,7 +546,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(693, 507);
+            label9.Location = new Point(733, 535);
             label9.Name = "label9";
             label9.Size = new Size(38, 15);
             label9.TabIndex = 27;
@@ -473,7 +555,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(693, 472);
+            label8.Location = new Point(733, 500);
             label8.Name = "label8";
             label8.Size = new Size(38, 15);
             label8.TabIndex = 26;
@@ -482,7 +564,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(693, 435);
+            label7.Location = new Point(733, 463);
             label7.Name = "label7";
             label7.Size = new Size(38, 15);
             label7.TabIndex = 25;
@@ -490,28 +572,28 @@
             // 
             // trackBar5
             // 
-            trackBar5.Location = new Point(518, 542);
+            trackBar5.Location = new Point(558, 570);
             trackBar5.Name = "trackBar5";
             trackBar5.Size = new Size(169, 45);
             trackBar5.TabIndex = 24;
             // 
             // trackBar4
             // 
-            trackBar4.Location = new Point(518, 507);
+            trackBar4.Location = new Point(558, 535);
             trackBar4.Name = "trackBar4";
             trackBar4.Size = new Size(169, 45);
             trackBar4.TabIndex = 23;
             // 
             // trackBar3
             // 
-            trackBar3.Location = new Point(518, 472);
+            trackBar3.Location = new Point(558, 500);
             trackBar3.Name = "trackBar3";
             trackBar3.Size = new Size(169, 45);
             trackBar3.TabIndex = 22;
             // 
             // trackBar2
             // 
-            trackBar2.Location = new Point(518, 435);
+            trackBar2.Location = new Point(558, 463);
             trackBar2.Name = "trackBar2";
             trackBar2.Size = new Size(169, 45);
             trackBar2.TabIndex = 21;
@@ -522,7 +604,7 @@
             labelMessage.AutoSize = true;
             labelMessage.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
             labelMessage.ForeColor = SystemColors.ControlText;
-            labelMessage.Location = new Point(202, 589);
+            labelMessage.Location = new Point(233, 589);
             labelMessage.Name = "labelMessage";
             labelMessage.Size = new Size(0, 25);
             labelMessage.TabIndex = 19;
@@ -532,9 +614,14 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { paramètreToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(781, 24);
+            menuStrip1.Size = new Size(812, 24);
             menuStrip1.TabIndex = 20;
             menuStrip1.Text = "menuStrip1";
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+            errorProvider1.ContainerControl = this;
             // 
             // paramètreToolStripMenuItem
             // 
@@ -543,16 +630,11 @@
             paramètreToolStripMenuItem.Text = "Paramètres";
             paramètreToolStripMenuItem.Click += paramètreToolStripMenuItem_Click;
             // 
-            // errorProvider1
-            // 
-            errorProvider1.BlinkStyle = ErrorBlinkStyle.NeverBlink;
-            errorProvider1.ContainerControl = this;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1146, 635);
+            ClientSize = new Size(1190, 635);
             Controls.Add(splitContainer1);
             MainMenuStrip = menuStrip1;
             MinimumSize = new Size(950, 524);
@@ -618,7 +700,6 @@
         private Label labelMessage;
         private BindingSource bindingSource1;
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem paramètreToolStripMenuItem;
         private TrackBar trackBar5;
         private TrackBar trackBar4;
         private TrackBar trackBar3;
@@ -627,5 +708,13 @@
         private Label label9;
         private Label label8;
         private Label label7;
+        private Label label11;
+        private Label label14;
+        private Label label13;
+        private Label label12;
+        private Label label16;
+        private Label label17;
+        private Label label18;
+        private ToolStripMenuItem paramètreToolStripMenuItem;
     }
 }

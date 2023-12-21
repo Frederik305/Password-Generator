@@ -89,11 +89,11 @@
             // 
             // button1
             // 
-            button1.Location = new Point(593, 114);
+            button1.Location = new Point(593, 102);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(98, 44);
             button1.TabIndex = 6;
-            button1.Text = "button1";
+            button1.Text = "Navigateur de fichier";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -107,7 +107,7 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // Settings
+            // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -121,8 +121,9 @@
             Controls.Add(textBox1);
             Controls.Add(label1);
             MinimumSize = new Size(734, 336);
-            Name = "Settings";
+            Name = "SettingsForm";
             Text = "Settings";
+            Load += SettingsForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
